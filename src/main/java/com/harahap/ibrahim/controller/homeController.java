@@ -6,8 +6,10 @@
 package com.harahap.ibrahim.controller;
 
 import com.harahap.ibrahim.repository.userRepositoryPaging;
+
 import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,7 +19,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- *
  * @author Aim MSI
  */
 @Controller
@@ -32,6 +33,7 @@ public class homeController {
         //userRepo.save(user);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>) auth.getAuthorities();
+
         if (isRolePresent(authorities, "USER")) {
             //System.out.println("User");
             return "user/index";
@@ -40,14 +42,9 @@ public class homeController {
             model.addAttribute("users", userRepo.findAll());
             return "admin/home";
         }
-//            if (request.isUserInRole("USER")) {
-//                System.out.println("User");
-//                return "user/dashboard";
-//            } else {
-//                System.out.println("Admin");
-//                model.addAttribute("users", userRepo.findAll());
-//                return "admin/home";
-//            }
+
+
+
 
     }
 
@@ -62,3 +59,5 @@ public class homeController {
         return isRolePresent;
     }
 }
+
+

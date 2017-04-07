@@ -26,7 +26,7 @@ public class securityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String SQL_LOGIN
             = "select username,password,active as enabled from users "
-            + "where username = ? and active <> 0";
+            + "where username = ? and active <> false";
 
     private static final String SQL_ROLE
             = "select username,user_role as authority from users "
@@ -34,7 +34,6 @@ public class securityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private DataSource ds;
-    
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
