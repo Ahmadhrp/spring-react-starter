@@ -2,18 +2,20 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>React + Spring</title>
-    <meta name="_csrf"  th:content="${_csrf.token}"/>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
     <!-- default header name is X-CSRF-TOKEN -->
-    <meta name="_csrf_header"  th:content="${_csrf.headerName}"/>
-    <link rel="stylesheet" href="/public/styles.css"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.min.css}"/>
+    <script type="text/javascript" th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.6/js/bootstrap.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}"/>
+    <!--<link rel="stylesheet" href="/public/styles.css"/>-->
 </head>
 <body>
-<div class='container'>
-    <div id='root'></div>
-    <form th:action="@{/logout}" method="post">
-        <input class="btn btn-danger center-block" type="submit" value="Logout" />
-    </form>
-</div>
+<div id='root'></div>
+<!--<form th:action="@{/logout}" method="post">-->
+<!--<input class="btn btn-danger center-block" type="submit" value="Logout hambeng"/>-->
+<!--</form>-->
 <script src="/public/bundle.js"></script>
 <script>
 

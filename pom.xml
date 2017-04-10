@@ -5,7 +5,7 @@
     <artifactId>SpringReact</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
-    
+
     <name>SpringReact</name>
     <description>Spring React Apps</description>
 
@@ -46,7 +46,7 @@
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-springsecurity4</artifactId>
-        </dependency>       
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
@@ -56,24 +56,48 @@
             <artifactId>postgresql</artifactId>
             <version>LATEST</version>
         </dependency>
-<!--    <dependency>
-            <groupId>com.microsoft.sqlserver</groupId>
-            <artifactId>mssql-jdbc</artifactId>
-        </dependency>-->
+        <!--    <dependency>
+                    <groupId>com.microsoft.sqlserver</groupId>
+                    <artifactId>mssql-jdbc</artifactId>
+                </dependency>-->
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>jquery</artifactId>
             <version>2.1.4</version>
-        </dependency> 
-         <!--<dependency>-->
-            <!--<groupId>com.microsoft.sqlserver</groupId>-->
-            <!--<artifactId>mssql-jdbc</artifactId>-->
-            <!--<version>6.1.0.jre7</version>-->
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>3.3.6</version>
+        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>com.microsoft.sqlserver</groupId>-->
+        <!--<artifactId>mssql-jdbc</artifactId>-->
+        <!--<version>6.1.0.jre7</version>-->
         <!--</dependency>-->
     </dependencies>
-
     <build>
         <plugins>
+            <!--<plugin>-->
+                <!--<groupId>org.codehaus.mojo</groupId>-->
+                <!--<artifactId>exec-maven-plugin</artifactId>-->
+                <!--<version>LATEST</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>npm run bundle</id>-->
+                        <!--<goals>-->
+                            <!--<goal>exec</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<executable>npm</executable>-->
+                            <!--<arguments>-->
+                                <!--<argument>run</argument>-->
+                                <!--<argument>bundle</argument>-->
+                            <!--</arguments>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
