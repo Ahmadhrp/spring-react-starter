@@ -28,13 +28,12 @@ export default class Reportform extends Component {
     handleSubmit(e) {
         e.preventDefault();
         const report = {
-            "user_id": 1,
+            "user_id": this.props.user.id,
             "tanggal": this.state.date,
             "uraian": this.state.uraian,
-            "createdby": 'ben',
+            "createdby": this.props.user.username,
             "createdAt": this.state.date
         };
-        console.log(report);
         this.setState({isLoading: true});
         $.ajax({
             url: "http://localhost:8080/api/dailyreports",
@@ -67,7 +66,6 @@ export default class Reportform extends Component {
                                    title="uraian"/>
                         </div>
                         <button className="btn btn-primary" style={{"marginLeft": "30px"}}>Save</button>
-                        {/*<input type="hidden" name="_csrf" value={this.props.token}/>*/}
                     </form>
                 </div>
             </div>

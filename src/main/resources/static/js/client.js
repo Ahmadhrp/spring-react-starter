@@ -11,23 +11,23 @@ import $ from 'jquery';
 // import 'bootstrap/dist/css/bootstrap.css';
 // import 'toastr/build/toastr.css';
 
-class App extends Component
-{
+class App extends Component {
     constructor(props) {
         super(props);
-        this.state = {csrf:''};
+        this.state = {csrf: '', user: {}};
     }
 
-    componentWillMount(){
-        this.setState({csrf : $('meta[name="_csrf"]').attr('content')});
-        console.log(this.state.csrf);
+    componentWillMount() {
+        this.setState({csrf: $('meta[name="_csrf"]').attr('content')});
+        $.ajax({url: "http://localhost:8080/creden"}).then(data =>
+            this.setState({user: data}));
     }
 
     render() {
         return (
             <div>
-                <Navbar token={this.state.csrf}/>
-                <Main token={this.state.csrf}/>
+                <Navbar user={this.state.user} token={this.state.csrf}/>
+                <Main user={this.state.user} token={this.state.csrf}/>
             </div>
         );
 

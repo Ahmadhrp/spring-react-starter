@@ -8,14 +8,17 @@ export default class Dashboard extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {employees: []};
+        this.state = {counter: 0, employees: []};
         this.fetchProgrammer = this.fetchProgrammer.bind(this);
     }
 
     fetchProgrammer() {
         $.ajax({
             url: "http://localhost:8080/api/employees",
-        }).then(data => this.setState({employees: data._embedded.employees}));
+        }).then((data,prevState) => this.setState({
+            employees: data._embedded.employees ,
+            counter: prevState + 1
+        }));
     }
 
     componentWillMount() {
@@ -25,7 +28,7 @@ export default class Dashboard extends Component {
     render() {
         return (
             <div>
-                <h1 className="page-header">Selamat Datang, <span>User</span></h1>
+                <h1 className="page-header">Selamat Datang, <span>{this.props.user.username}</span></h1>
                 <div className="row placeholders">
                     {
                         this.state.employees.map((employee, index) =>

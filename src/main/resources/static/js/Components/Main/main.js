@@ -3,7 +3,7 @@
  */
 import React, {Component} from 'react';
 import Dashboard from './Content/Dashboard/dashboard';
-import Reportpage from './Content/Report/reportlist';
+import Reportlist from './Content/Report/reportlist';
 import Reportform from './Content/Report/reportform';
 import {Route} from 'react-router-dom';
 // import Helmet from 'react-helmet';
@@ -34,9 +34,9 @@ export default class Main extends Component {
                         </ul>
                     </div>
                     <div className="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                        <Route exact path="/" component={Dashboard}/>
-                        <Route path="/list" component={Reportpage}/>
-                        <Route path="/daily" render={(props) => <Reportform token={this.props.token} />} />
+                        <Route exact path="/" render={(props) => <Dashboard user={this.props.user} token={this.props.token} />} />
+                        <Route path="/list" render={(props) => <Reportlist token={this.props.token} />} />
+                        <Route path="/daily" render={(props) => <Reportform user={this.props.user} token={this.props.token} />} />
                     </div>
                 </div>
             </div>

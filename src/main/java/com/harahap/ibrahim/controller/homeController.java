@@ -7,7 +7,6 @@ package com.harahap.ibrahim.controller;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.harahap.ibrahim.domain.Users;
 import com.harahap.ibrahim.repository.userRepositoryFindByUsernameImpl;
@@ -22,6 +21,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @author Aim MSI
@@ -37,6 +38,7 @@ public class homeController {
     @Autowired
     private userRepositoryFindByUsernameImpl userRepoFindLoggedInUser;
 
+
     @RequestMapping("/")
     public String home(Model model, HttpServletRequest request) {
         //System.out.println(userRepo.findAll());       
@@ -44,26 +46,26 @@ public class homeController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>) auth.getAuthorities();
 
-        UserDetails user = (UserDetails) auth.getPrincipal();
-        Users logged_in_user = userRepoFindLoggedInUser.findByUsername(user.getUsername());
-        ObjectMapper mapper = new ObjectMapper();
-
-        try {
-            // convert user object to json string and return it
-            jsonUser = mapper.writeValueAsString(logged_in_user);
-        }
-        // catch various errors
-        catch (JsonGenerationException e) {
-            e.printStackTrace();
-        }
-        catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println(jsonUser);
+//        UserDetails user = (UserDetails) auth.getPrincipal();
+//        Users logged_in_user = userRepoFindLoggedInUser.findByUsername(user.getUsername());
+//        ObjectMapper mapper = new ObjectMapper();
+//
+//        try {
+//            // convert user object to json string and return it
+//            jsonUser = mapper.writeValueAsString(logged_in_user);
+//        }
+//        // catch various errors
+//        catch (JsonGenerationException e) {
+//            e.printStackTrace();
+//        }
+//        catch (JsonProcessingException e) {
+//            e.printStackTrace();
+//        }
+//
+//        System.out.println(jsonUser);
 
         if (isRolePresent(authorities, "USER")) {
-            model.addAttribute("active", jsonUser);
+            //model.addAttribute("active", jsonUser);
             return "user/index";
         } else {
             //System.out.println("Admin");

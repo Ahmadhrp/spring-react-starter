@@ -26,7 +26,7 @@ public class Users
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    
+
     @Column(length = 100)
     private String username;
 
@@ -39,10 +39,12 @@ public class Users
     
     @Column(length = 50)
     private String posisi;
-    
+
+    @JsonIgnore
     @Column(length = 10)
     private String user_role;
-    
+
+    @JsonIgnore
     private Boolean active;
 
     @JsonIgnore
