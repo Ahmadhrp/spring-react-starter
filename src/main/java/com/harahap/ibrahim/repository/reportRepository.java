@@ -6,12 +6,12 @@
 package com.harahap.ibrahim.repository;
 
 import com.harahap.ibrahim.domain.Dailyreport;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.CrudRepository;
 
 /**
  *
  * @author Bensolo
  */
-public interface reportRepository extends PagingAndSortingRepository<Dailyreport, Integer>{
+public interface reportRepository extends CrudRepository<Dailyreport, Integer> {
     
 }

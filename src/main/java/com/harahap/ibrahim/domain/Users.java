@@ -5,6 +5,8 @@
  */
 package com.harahap.ibrahim.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,7 +29,8 @@ public class Users
     
     @Column(length = 100)
     private String username;
-    
+
+    @JsonIgnore
     @Column(length = 100)
     private String password;
     
@@ -41,17 +44,21 @@ public class Users
     private String user_role;
     
     private Boolean active;
-    
+
+    @JsonIgnore
     @Column(length = 50)
     private String createdby;
-    
+
+    @JsonIgnore
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
-    
+
+    @JsonIgnore
     @Column(length = 50)
     private String updatedBy;
-    
+
+    @JsonIgnore
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;

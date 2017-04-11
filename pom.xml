@@ -52,14 +52,10 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>LATEST</version>
+        <groupId>org.postgresql</groupId>
+        <artifactId>postgresql</artifactId>
+        <version>LATEST</version>
         </dependency>
-        <!--    <dependency>
-                    <groupId>com.microsoft.sqlserver</groupId>
-                    <artifactId>mssql-jdbc</artifactId>
-                </dependency>-->
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>jquery</artifactId>
@@ -79,24 +75,24 @@
     <build>
         <plugins>
             <!--<plugin>-->
-                <!--<groupId>org.codehaus.mojo</groupId>-->
-                <!--<artifactId>exec-maven-plugin</artifactId>-->
-                <!--<version>LATEST</version>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<id>npm run bundle</id>-->
-                        <!--<goals>-->
-                            <!--<goal>exec</goal>-->
-                        <!--</goals>-->
-                        <!--<configuration>-->
-                            <!--<executable>npm</executable>-->
-                            <!--<arguments>-->
-                                <!--<argument>run</argument>-->
-                                <!--<argument>bundle</argument>-->
-                            <!--</arguments>-->
-                        <!--</configuration>-->
-                    <!--</execution>-->
-                <!--</executions>-->
+            <!--<groupId>org.codehaus.mojo</groupId>-->
+            <!--<artifactId>exec-maven-plugin</artifactId>-->
+            <!--<version>LATEST</version>-->
+            <!--<executions>-->
+            <!--<execution>-->
+            <!--<id>npm run bundle</id>-->
+            <!--<goals>-->
+            <!--<goal>exec</goal>-->
+            <!--</goals>-->
+            <!--<configuration>-->
+            <!--<executable>npm</executable>-->
+            <!--<arguments>-->
+            <!--<argument>run</argument>-->
+            <!--<argument>bundle</argument>-->
+            <!--</arguments>-->
+            <!--</configuration>-->
+            <!--</execution>-->
+            <!--</executions>-->
             <!--</plugin>-->
             <plugin>
                 <groupId>org.springframework.boot</groupId>

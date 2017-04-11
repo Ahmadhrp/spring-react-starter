@@ -16,9 +16,9 @@
 <!--<form th:action="@{/logout}" method="post">-->
 <!--<input class="btn btn-danger center-block" type="submit" value="Logout hambeng"/>-->
 <!--</form>-->
-<script src="/public/bundle.js"></script>
-<script>
-
+<script type="text/javascript" th:inline="javascript">
+    window.__PRELOADED_STATE__ =  [[${active}]];
 </script>
+<script src="/public/bundle.js"></script>
 </body>
 </html>
