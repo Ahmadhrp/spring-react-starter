@@ -6,10 +6,24 @@ import Dashboard from './Content/Dashboard/dashboard';
 import Reportlist from './Content/Report/reportlist';
 import Reportform from './Content/Report/reportform';
 import {Route} from 'react-router-dom';
-// import Helmet from 'react-helmet';
 import Sidebarlink from './Sidebar/sidebar';
 
-export default class Main extends Component {
+export default class Main extends Component
+{
+
+    constructor(props){
+        super(props);
+        this.state = {
+            report : {},
+            mode : '',
+        }
+        this.transValueToForm = this.transValueToForm.bind(this);
+    }
+
+    transValueToForm(data){
+        this.setState({report : data,mode : 'edit'});
+    }
+
     handleLogout(event) {
         event.preventDefault();
         $('#formlogout').submit();
@@ -35,8 +49,8 @@ export default class Main extends Component {
                     </div>
                     <div className="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
                         <Route exact path="/" render={(props) => <Dashboard user={this.props.user} token={this.props.token} />} />
-                        <Route path="/list" render={(props) => <Reportlist token={this.props.token} />} />
-                        <Route path="/daily" render={(props) => <Reportform user={this.props.user} token={this.props.token} />} />
+                        <Route path="/daily" render={(props) => <Reportform mode={this.state.mode} report={this.state.report} user={this.props.user} token={this.props.token} />} />
+                        <Route path="/list" render={(props) => <Reportlist transfer={this.transValueToForm} token={this.props.token} />} />
                     </div>
                 </div>
             </div>

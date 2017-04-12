@@ -21,6 +21,7 @@ export default class Reportlist extends Component {
 
     render() {
         const csrf = this.props.token;
+        const connect = this.props.transfer;
         return (
             <div>
                 <h1 className="page-header">Report List</h1>
@@ -36,8 +37,8 @@ export default class Reportlist extends Component {
                         </thead>
                         <tbody>
                         {
-                            this.state.reports.map((report,counter,csrf) =>
-                                <Report no={counter} tanggal={report.tanggal} uraian={report.uraian} links={report._links.self.href}
+                            this.state.reports.map((report,index) =>
+                                <Report key={index} trans={connect} counter={index} tanggal={report.tanggal} uraian={report.uraian} links={report._links.self.href}
                                         token={csrf} />)
                         }
                         </tbody>

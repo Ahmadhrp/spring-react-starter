@@ -7,9 +7,9 @@ import Navbar from './Components/Navbar/navbar'
 import Main from './Components/Main/main';
 import {BrowserRouter} from 'react-router-dom';
 import $ from 'jquery';
-// import toastr from 'toastr';
-// import 'bootstrap/dist/css/bootstrap.css';
-// import 'toastr/build/toastr.css';
+import toastr from 'toastr';
+import 'toastr/build/toastr.css';
+
 
 class App extends Component {
     constructor(props) {
@@ -21,6 +21,10 @@ class App extends Component {
         this.setState({csrf: $('meta[name="_csrf"]').attr('content')});
         $.ajax({url: "http://localhost:8080/creden"}).then(data =>
             this.setState({user: data}));
+        toastr.options = {
+            "positionClass": "toast-bottom-right",
+            "showMethod": "slideDown"
+        }
     }
 
     render() {
