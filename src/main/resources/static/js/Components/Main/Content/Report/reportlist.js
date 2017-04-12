@@ -11,7 +11,7 @@ export default class Reportlist extends Component {
         this.state = {reports : []};
     }
 
-    componentWillMount(){
+    componentDidMount(){
         $.ajax({
             url: "http://localhost:8080/api/dailyreports",
         }).then(data => this.setState({
@@ -45,7 +45,7 @@ export default class Reportlist extends Component {
                     </table>
                 </div>
             </div>
-        );
+        )
     }
 
 }

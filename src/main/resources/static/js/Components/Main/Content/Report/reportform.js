@@ -3,28 +3,34 @@
  */
 import React, {Component} from 'react';
 import DatePicker from 'react-bootstrap-date-picker';
+import {Redirect} from 'react-router-dom';
 import toastr from 'toastr';
 
-export default class Reportform extends Component
-{
+export default class Reportform extends Component {
     constructor(props) {
         super(props);
         this.state = {
             mode: this.props.mode ? this.props.mode : '',
             date: this.props.report ? this.props.report.tanggal : new Date().toISOString(),
             uraian: this.props.report ? this.props.report.uraian : '',
-            isLoading: false
+            isLoading: false,
+            done: false
         };
         this.handleDateChange = this.handleDateChange.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    componentWillReceiveProps(newProps){
+    componentWillReceiveProps(newProps) {
         this.setState({
             mode: newProps.mode,
             date: newProps.report.tanggal,
-            uraian: newProps.report.uraian});
+            uraian: newProps.report.uraian
+        });
+    }
+
+    componentWillUnmount(){
+        // this.setState({uraian:''});
     }
 
     handleDateChange(value) {
@@ -56,7 +62,7 @@ export default class Reportform extends Component
                 },
                 data: JSON.stringify(report)
             }).then(data => {
-                this.setState({date: '', uraian:'', isLoading: false});
+                this.setState({date: '', uraian: '', isLoading: false, done: true});
                 toastr.success("Edit Report Berhasil");
             }).fail(error => toastr.error(error.responseJSON.message));
 
@@ -80,7 +86,7 @@ export default class Reportform extends Component
                 },
                 data: JSON.stringify(report)
             }).then(data => {
-                this.setState({date: '', uraian: '', isLoading: false});
+                this.setState({date: '', uraian: '', isLoading: false, done: true});
                 toastr.success("Input Report Berhasil");
             }).fail(error => toastr.error(error.responseJSON.message));
 
@@ -89,7 +95,7 @@ export default class Reportform extends Component
     }
 
     render() {
-        return (
+        const form = (
             <div>
                 <h1 className="page-header">Input Daily Report</h1>
                 <div id="input_report">
@@ -109,7 +115,10 @@ export default class Reportform extends Component
                     </form>
                 </div>
             </div>
-        );
+        )
+
+        return this.state.done ? <Redirect to="/list"/> : form
     }
+
 
 }

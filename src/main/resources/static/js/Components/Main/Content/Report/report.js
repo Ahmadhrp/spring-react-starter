@@ -9,7 +9,7 @@ import {Redirect} from 'react-router-dom';
 export default class Report extends Component {
     constructor(props) {
         super(props);
-        this.state = {display: true};
+        this.state = {display: true, edit: false};
         this.editReport = this.editReport.bind(this);
         this.hapusReport = this.hapusReport.bind(this);
     }
@@ -21,7 +21,8 @@ export default class Report extends Component {
             link: this.props.links
         }
         this.props.trans(data);
-        this.props.history.push('/list');
+        this.setState({edit: true});
+
     }
 
     hapusReport() {
@@ -43,9 +44,7 @@ export default class Report extends Component {
                 marginRight: '10px'
             }
         };
-
-        if (this.state.display === false) return null;
-        else return (
+        const report = (
             <tr>
                 <td>{this.props.counter + 1}</td>
                 <td>{this.props.tanggal}</td>
@@ -60,5 +59,16 @@ export default class Report extends Component {
                 </td>
             </tr>
         );
+        if (this.state.display === false) {
+            return null;
+        }
+        else if (this.state.edit) {
+            return <Redirect to="/daily"/>;
+        }
+        else {
+            return report;
+        }
+
+
     }
 }
