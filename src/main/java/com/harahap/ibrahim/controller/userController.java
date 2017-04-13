@@ -6,7 +6,7 @@
 package com.harahap.ibrahim.controller;
 
 import com.harahap.ibrahim.domain.Users;
-import com.harahap.ibrahim.repository.userRepositoryPaging;
+import com.harahap.ibrahim.repository.userRepository;
 import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class userController 
 {
     @Autowired
-    private userRepositoryPaging userRepo;
+    private userRepository userRepo;
     
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;

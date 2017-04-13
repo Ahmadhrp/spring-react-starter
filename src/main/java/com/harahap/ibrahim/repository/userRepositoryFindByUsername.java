@@ -13,7 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  *
  * @author Aim MSI
  */
-public interface userRepositoryFindByUsername extends Repository<Users,Integer>  
+public interface userRepositoryFindByUsername extends Repository<Users,Integer>
 {
     public Users findByUsername(String username);
     

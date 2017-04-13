@@ -5,24 +5,17 @@
  */
 package com.harahap.ibrahim.controller;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.harahap.ibrahim.domain.Users;
 import com.harahap.ibrahim.repository.userRepositoryFindByUsernameImpl;
-import com.harahap.ibrahim.repository.userRepositoryPaging;
+import com.harahap.ibrahim.repository.userRepository;
 import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @author Aim MSI
@@ -31,7 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class homeController {
 
     @Autowired
-    private userRepositoryPaging userRepo;
+    private userRepository userRepo;
 
     private String jsonUser;
 
@@ -41,8 +34,6 @@ public class homeController {
 
     @RequestMapping("/")
     public String home(Model model, HttpServletRequest request) {
-        //System.out.println(userRepo.findAll());       
-        //userRepo.save(user);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>) auth.getAuthorities();
 

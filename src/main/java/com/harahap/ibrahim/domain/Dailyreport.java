@@ -5,9 +5,8 @@
  */
 package com.harahap.ibrahim.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
 
+import lombok.Data;
 import javax.persistence.*;
 import java.util.Date;
 
@@ -16,13 +15,18 @@ import java.util.Date;
 public class Dailyreport {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     private Integer user_id;
+
+    private Integer project_id;
+
+    private Integer status_id;
 
     @Temporal(TemporalType.DATE)
     private Date tanggal;
 
+    @Column(length = 200)
     private String uraian;
 
     @Column(length = 50)

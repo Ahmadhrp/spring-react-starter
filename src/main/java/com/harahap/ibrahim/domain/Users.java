@@ -25,7 +25,7 @@ public class Users
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     @Column(length = 100)
     private String username;
@@ -39,6 +39,14 @@ public class Users
     
     @Column(length = 50)
     private String posisi;
+
+    private int age;
+
+    @Column(length = 200)
+    private String skil;
+
+    @Column(length = 200)
+    private String avatar;
 
     @JsonIgnore
     @Column(length = 10)
@@ -65,11 +73,21 @@ public class Users
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
 
-    public Integer getId() {
+    //Jika error no constructor handle here
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -103,6 +121,22 @@ public class Users
 
     public void setPosisi(String posisi) {
         this.posisi = posisi;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getSkil() {
+        return skil;
+    }
+
+    public void setSkil(String skil) {
+        this.skil = skil;
     }
 
     public String getUser_role() {
@@ -152,6 +186,4 @@ public class Users
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
-
-    
 }

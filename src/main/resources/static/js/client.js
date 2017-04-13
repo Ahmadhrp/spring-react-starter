@@ -14,13 +14,15 @@ import 'toastr/build/toastr.css';
 class App extends Component {
     constructor(props) {
         super(props);
-        this.state = {csrf: '', user: {}};
+        this.state = {csrf: '', user: {}, status:{}};
     }
 
     componentWillMount() {
         this.setState({csrf: $('meta[name="_csrf"]').attr('content')});
         $.ajax({url: "http://localhost:8080/creden"}).then(data =>
             this.setState({user: data}));
+        $.ajax({url: "http://localhost:8080/api/statuses"}).then(data =>
+            this.setState({status: data._embedded.statuses}));
         toastr.options = {
             "positionClass": "toast-bottom-right",
             "showMethod": "slideDown"
@@ -31,7 +33,7 @@ class App extends Component {
         return (
             <div>
                 <Navbar user={this.state.user} token={this.state.csrf}/>
-                <Main user={this.state.user} token={this.state.csrf}/>
+                <Main user={this.state.user} status={this.state.status} token={this.state.csrf}/>
             </div>
         );
 

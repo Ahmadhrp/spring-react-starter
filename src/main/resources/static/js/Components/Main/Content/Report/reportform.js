@@ -12,10 +12,11 @@ export default class Reportform extends Component {
         this.state = {
             mode: this.props.mode ? this.props.mode : '',
             date: this.props.report ? this.props.report.tanggal : new Date().toISOString(),
-            uraian: this.props.report ? this.props.report.uraian : '',
+            uraian: '', // this.props.report ? this.props.report.uraian :
             isLoading: false,
             done: false
         };
+
         this.handleDateChange = this.handleDateChange.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -29,7 +30,7 @@ export default class Reportform extends Component {
         });
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         // this.setState({uraian:''});
     }
 
@@ -56,7 +57,7 @@ export default class Reportform extends Component {
                 url: this.props.report.link,
                 contentType: "application/json",
                 dataType: "json",
-                type: 'PUT',
+                type: 'PATCH',
                 headers: {
                     "X-CSRF-TOKEN": this.props.token
                 },
@@ -99,26 +100,60 @@ export default class Reportform extends Component {
             <div>
                 <h1 className="page-header">Input Daily Report</h1>
                 <div id="input_report">
-                    <form className="form-inline" name="formreport" id="formreport" onSubmit={this.handleSubmit}>
-                        <div className="form-group">
-                            <label style={{"marginRight": "10px"}} htmlFor="tanggal">Tanggal : </label>
+                    <form className="ui form">
+                        <div className="field">
+                            <label>Tanggal</label>
                             <DatePicker dateFormat="YYYY/MM/DD" onChange={this.handleDateChange}
                                         value={this.state.date}/>
                         </div>
-                        <div className="form-group" style={{"marginLeft": "30px"}}>
-                            <label htmlFor="uraian">Uraian : </label>
-                            <input className="form-control" style={{"marginLeft": "10px"}} name="uraian"
-                                   type="text" onChange={this.handleChange} value={this.state.uraian}
-                                   title="uraian"/>
+                        <div className="field">
+                            <label>Uraian</label>
+                            <input type="text" name="uraian" placeholder="Uraian"/>
                         </div>
-                        <button className="btn btn-primary" style={{"marginLeft": "30px"}}>Save</button>
+                        <div className="field">
+                            <label>Status</label>
+                            <select className="ui fluid dropdown">
+                                {
+                                    this.state.status.map((status, index) =>
+                                        <option value={status.id}>{status.status}</option>)
+                                }
+                            </select>
+                        </div>
+                        <div className="field">
+                            <label>State</label>
+                            <select className="ui fluid dropdown">
+                                <option value="">State</option>
+                                <option value="AL">Alabama</option>
+                                <option value="AK">Alaska</option>
+                                <option value="AZ">Arizona</option>
+                                <option value="AR">Arkansas</option>
+                            </select>
+                        </div>
+                        <button className="ui button" type="submit">Submit</button>
                     </form>
                 </div>
             </div>
         )
 
-        return this.state.done ? <Redirect to="/list"/> : form
+        return this.state.done ?
+            <Redirect to="/list"/>
+            : form
     }
 
 
 }
+
+//<form name="formreport" id="formreport" onSubmit={this.handleSubmit}>
+//    <div classNameName="form-group">
+// <label style={{"marginRight": "10px"}} htmlFor="tanggal">Tanggal : </label>
+// <DatePicker dateFormat="YYYY/MM/DD" onChange={this.handleDateChange}
+//                     value={this.state.date}/>
+//     </div>
+//     <div classNameName="form-group" style={{"marginLeft": "30px"}}>
+//         <label htmlFor="uraian">Uraian : </label>
+//         <input classNameName="form-control" style={{"marginLeft": "10px"}} name="uraian"
+//                type="text" onChange={this.handleChange} value={this.state.uraian}
+//                title="uraian"/>
+//     </div>
+//     <button classNameName="btn btn-primary" style={{"marginLeft": "30px"}}>Save</button>
+// </form>

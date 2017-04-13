@@ -2,13 +2,12 @@ package com.harahap.ibrahim.controller;
 
 import com.harahap.ibrahim.domain.Users;
 import com.harahap.ibrahim.repository.userRepositoryFindByUsernameImpl;
-import com.harahap.ibrahim.repository.userRepositoryPaging;
+import com.harahap.ibrahim.repository.userRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -18,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class credentialController
 {
     @Autowired
-    private userRepositoryPaging userRepo;
+    private userRepository userRepo;
 
     @Autowired
     private userRepositoryFindByUsernameImpl userRepoFindLoggedInUser;

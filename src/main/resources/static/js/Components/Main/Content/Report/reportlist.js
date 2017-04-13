@@ -6,12 +6,12 @@ import Report from './report';
 
 export default class Reportlist extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state = {reports : []};
+        this.state = {reports: []};
     }
 
-    componentDidMount(){
+    componentDidMount() {
         $.ajax({
             url: "http://localhost:8080/api/dailyreports",
         }).then(data => this.setState({
@@ -37,9 +37,12 @@ export default class Reportlist extends Component {
                         </thead>
                         <tbody>
                         {
-                            this.state.reports.map((report,index) =>
-                                <Report key={index} trans={connect} counter={index} tanggal={report.tanggal} uraian={report.uraian} links={report._links.self.href}
-                                        token={csrf} />)
+                            this.state.reports.map((report, index) =>
+                                <Report key={index} trans={connect} counter={index}
+                                        report={{tanggal: report.tanggal,
+                                            uraian: report.uraian,
+                                            project: report.project_id,
+                                            links: report._links.self.href}} token={csrf}/>)
                         }
                         </tbody>
                     </table>
