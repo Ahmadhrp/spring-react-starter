@@ -11,9 +11,8 @@ export default class Projectform extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            mode: this.props.mode ? this.props.mode : '',
-            startdate: this.props.project ? this.props.project.startdate : new Date().toISOString(),
-            targetdate: this.props.project ? this.props.project.targetdate : new Date().toISOString(),
+            startdate: '',
+            targetdate: '',
             name: '',
             pic: '',
             status: '',
@@ -21,14 +20,14 @@ export default class Projectform extends Component {
             done: false
         };
 
-        this.handleDateChange = this.handleDateChange.bind(this);
+        this.handleSDateChange = this.handleSDateChange.bind(this);
+        this.handleTDateChange = this.handleTDateChange.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentWillReceiveProps(newProps) {
         this.setState({
-            mode: newProps.mode,
             startdate: newProps.project.startdate,
             targetdate: newProps.project.targetdate,
             name: newProps.project.name,
@@ -38,11 +37,15 @@ export default class Projectform extends Component {
     }
 
     componentWillUnmount() {
-        // this.setState({uraian:''});
+
     }
 
-    handleDateChange(value) {
-        this.setState({date: value});
+    handleSDateChange(value) {
+        this.setState({startdate: value});
+    }
+
+    handleTDateChange(value) {
+        this.setState({targetdate: value});
     }
 
     handleChange(e) {
@@ -53,13 +56,13 @@ export default class Projectform extends Component {
         e.preventDefault();
         if (this.props.mode === 'edit') {
             const project = {
+                "updatedBy": this.props.user.username,
+                "updatedAt": new Date().toISOString(),
                 "name": this.state.name,
                 "pic": this.state.pic,
                 "start_date": this.state.startdate,
                 "target_date": this.state.targetdate,
-                "id_status": this.state.status,
-                "updatedBy": this.props.user.username,
-                "updatedAt": new Date().toISOString()
+                "status": `http://localhost:8080/api/statuses/${this.state.status}`
             };
             this.setState({isLoading: true});
             $.ajax({
@@ -72,23 +75,25 @@ export default class Projectform extends Component {
                 },
                 data: JSON.stringify(project)
             }).then(() => {
+                this.props.reset();
                 this.setState(
-                    {startdate: '', targetdate: '',name: '', project: '', status: '', pic:'', isLoading: false, mode:'', done: true}
+                    {startdate: '', targetdate: '',name: '', project: '', status: '', pic:'', isLoading: false, done: true}
                     );
-                toastr.success("Edit Report Berhasil");
+                toastr.success("Edit Project Berhasil");
             }).fail(error => toastr.error(error.responseJSON.message));
 
         }
         else {
             const project = {
+                "createdby": this.props.user.username,
+                "createdAt": new Date().toISOString(),
                 "name": this.state.name,
                 "pic": this.state.pic,
                 "start_date": this.state.startdate,
                 "target_date": this.state.targetdate,
-                "id_status": this.state.status,
-                "createdby": this.props.user.username,
-                "createdAt": new Date().toISOString()
+                "status": `http://localhost:8080/api/statuses/${this.state.status}`
             };
+
             this.setState({isLoading: true});
             $.ajax({
                 url: "http://localhost:8080/api/projects",
@@ -100,8 +105,9 @@ export default class Projectform extends Component {
                 },
                 data: JSON.stringify(project)
             }).then(() => {
-                this.setState({startdate: '', targetdate: '',name: '', project: '', status: '', pic:'',  mode:'', isLoading: false, done: true});
-                toastr.success("Input Report Berhasil");
+                this.props.reset();
+                this.setState({startdate: '', targetdate: '',name: '', project: '', status: '', pic:'', isLoading: false, done: true});
+                toastr.success("Input Project Berhasil");
             }).fail(error => toastr.error(error.responseJSON.message));
 
         }
@@ -117,25 +123,25 @@ export default class Projectform extends Component {
                           onSubmit={this.handleSubmit}>
                         <div className="field">
                             <label>Project</label>
-                            <input type="text" name="project" placeholder="Project Name" onChange={this.handleChange}/>
+                            <input type="text" name="name" value={this.state.name} placeholder="Project Name" onChange={this.handleChange}/>
                         </div>
                         <div className="field">
                             <label>Start Date</label>
-                            <DatePicker dateFormat="YYYY/MM/DD" onChange={this.handleDateChange}
+                            <DatePicker dateFormat="YYYY/MM/DD" onChange={this.handleSDateChange}
                                         value={this.state.startdate}/>
                         </div>
                         <div className="field">
                             <label>Target Date</label>
-                            <DatePicker dateFormat="YYYY/MM/DD" onChange={this.handleDateChange}
+                            <DatePicker dateFormat="YYYY/MM/DD" onChange={this.handleTDateChange}
                                         value={this.state.targetdate}/>
                         </div>
                         <div className="field">
                             <label>PIC</label>
-                            <input type="text" name="pic" placeholder="PIC name" onChange={this.handleChange}/>
+                            <input type="text" name="pic" value={this.state.pic} placeholder="PIC name" onChange={this.handleChange}/>
                         </div>
                         <div className="field">
                             <label>Status</label>
-                            <select className="ui fluid dropdown" name="status" value={this.state.value}
+                            <select className="ui fluid dropdown" name="status" value={this.state.status}
                                     onChange={this.handleChange}>
                                 <option defaultValue value="">- Pilih Status -</option>
                                 {

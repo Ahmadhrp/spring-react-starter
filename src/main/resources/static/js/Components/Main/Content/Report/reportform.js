@@ -11,10 +11,12 @@ export default class Reportform extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            mode: this.props.mode ? this.props.mode : '',
-            date: this.props.report ? this.props.report.tanggal : new Date().toISOString(),
-            uraian: '', // this.props.report ? this.props.report.uraian :
+            // mode: this.props.mode ? this.props.mode : '',
+            // this.props.report ? this.props.report.tanggal :
+            date: '',
+            uraian: '',
             project: '',
+            listproject: [],
             status: '',
             isLoading: false,
             done: false
@@ -27,7 +29,6 @@ export default class Reportform extends Component {
 
     componentWillReceiveProps(newProps) {
         this.setState({
-            mode: newProps.mode,
             date: newProps.report.tanggal,
             project: newProps.report.project.id,
             uraian: newProps.report.uraian,
@@ -35,8 +36,11 @@ export default class Reportform extends Component {
         });
     }
 
-    componentWillUnmount() {
-        // this.setState({uraian:''});
+    componentWillMount() {
+        $.ajax({url: "http://localhost:8080/api/projects"}).then(data => {
+            this.setState({listproject: data._embedded.projects});
+            // console.log(this.state.listproject);
+        })
     }
 
     handleDateChange(value) {
@@ -46,10 +50,6 @@ export default class Reportform extends Component {
     handleChange(e) {
         this.setState({[e.target.name]: e.target.value});
     }
-
-    // handleObjChange(e){
-    //     this.setState({status: e.target.value });
-    // }
 
     handleSubmit(e) {
         e.preventDefault();
@@ -73,8 +73,8 @@ export default class Reportform extends Component {
                 },
                 data: JSON.stringify(report)
             }).then(() => {
-                this.setState({date: '', uraian: '', project: '',status: '', isLoading: false, done: true});
                 this.props.reset();
+                this.setState({date: '', uraian: '', project: '', status: '', isLoading: false, done: true});
                 toastr.success("Edit Report Berhasil");
             }).fail(error => toastr.error(error.responseJSON.message));
 
@@ -100,7 +100,8 @@ export default class Reportform extends Component {
                 },
                 data: JSON.stringify(report)
             }).then(() => {
-                this.setState({date: '', uraian: '', project: '',status: '', isLoading: false, done: true});
+                this.props.reset();
+                this.setState({date: '', uraian: '', project: '', status: '', isLoading: false, done: true});
                 toastr.success("Input Report Berhasil");
             }).fail(error => toastr.error(error.responseJSON.message));
 
@@ -109,17 +110,20 @@ export default class Reportform extends Component {
     }
 
     render() {
+
         const form = (
             <div>
                 <h1 className="page-header">Input Daily Report</h1>
                 <div id="input_report">
-                    <form className={classnames('ui','form',{loading:this.state.isLoading})} onSubmit={this.handleSubmit}>
+                    <form className={classnames('ui', 'form', {loading: this.state.isLoading})}
+                          onSubmit={this.handleSubmit}>
                         <div className="field">
                             <label>Project</label>
-                            <select className="ui fluid dropdown" name="project" value={this.state.project} onChange={this.handleChange}>
+                            <select className="ui fluid dropdown" name="project" value={this.state.project}
+                                    onChange={this.handleChange}>
                                 <option defaultValue value="">- Project -</option>
                                 {
-                                    this.props.projects.map((project) =>
+                                    this.state.listproject.map((project) =>
                                         <option key={project.id} value={project.id}>{project.name}</option>)
                                 }
                             </select>
@@ -131,11 +135,13 @@ export default class Reportform extends Component {
                         </div>
                         <div className="field">
                             <label>Uraian</label>
-                            <input type="text" name="uraian" value={this.state.uraian} placeholder="Uraian" onChange={this.handleChange}/>
+                            <input type="text" name="uraian" value={this.state.uraian} placeholder="Uraian"
+                                   onChange={this.handleChange}/>
                         </div>
                         <div className="field">
                             <label>Status</label>
-                            <select className="ui fluid dropdown" name="status" value={this.state.status} onChange={this.handleChange}>
+                            <select className="ui fluid dropdown" name="status" value={this.state.status}
+                                    onChange={this.handleChange}>
                                 <option defaultValue value="">- Pilih Status -</option>
                                 {
                                     this.props.status.map((status) =>
@@ -160,3 +166,9 @@ export default class Reportform extends Component {
 // <option value="1">Pnl</option>
 // <option value="2">Payroll</option>
 //     <option value="3">Smkn</option>
+
+
+// {
+//     this.state.listproject.map((project) =>
+//         <option key={project.id} value={project.id}>{project.name}</option>)
+// }

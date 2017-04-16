@@ -15,15 +15,15 @@ export default class Project extends Component {
     }
 
     editProject() {
-        const data = {
+        let data = {
             name: this.props.projectdetail.name,
             pic: this.props.projectdetail.pic,
             startdate: this.props.projectdetail.startdate,
             targetdate: this.props.projectdetail.targetdate,
-            status: this.props.projectdetail.id_status,
-            uraian: this.props.projectdetail.uraian,
+            status: this.props.projectdetail.status.id,
             link: this.props.projectdetail.links
         };
+
         this.props.trans(data);
         this.setState({edit: true});
 
@@ -56,7 +56,7 @@ export default class Project extends Component {
                 <td>{this.props.projectdetail.pic}</td>
                 <td>{this.props.projectdetail.startdate}</td>
                 <td>{this.props.projectdetail.targetdate}</td>
-                <td>{this.props.projectdetail.status}</td>
+                <td>{this.props.projectdetail.status.name}</td>
                 <td>
                     <a href="#" style={style.edit} onClick={this.editProject}
                        className="btn btn-warning btn-xs" data-toggle="tooltip" data-placement="left"

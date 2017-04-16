@@ -37,20 +37,16 @@ public class Project {
     @Temporal(TemporalType.DATE)
     private Date target_date;
 
-    @JsonIgnore
     @Column(length = 50)
     private String createdby;
 
-    @JsonIgnore
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
-    @JsonIgnore
     @Column(length = 50)
     private String updatedBy;
 
-    @JsonIgnore
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
