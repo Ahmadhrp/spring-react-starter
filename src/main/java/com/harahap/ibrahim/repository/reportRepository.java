@@ -5,16 +5,16 @@
  */
 package com.harahap.ibrahim.repository;
 
-import com.harahap.ibrahim.domain.Dailyreport;
+import com.harahap.ibrahim.domain.reportProjection;
+import com.harahap.ibrahim.domain.Report;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
-
-import java.util.List;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 /**
  * @author Bensolo
  */
-public interface reportRepository extends CrudRepository<Dailyreport, Integer> {
 
-//    List<Dailyreport> findByName(@Param("id") Integer id);
+@RepositoryRestResource(excerptProjection = reportProjection.class)
+public interface reportRepository extends CrudRepository<Report, Long> {
+
 }

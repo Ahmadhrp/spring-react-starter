@@ -25,11 +25,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class securityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String SQL_LOGIN
-            = "select username,password,active as enabled from users "
+            = "select username,password,active as enabled from programmer "
             + "where username = ? and active <> false";
 
     private static final String SQL_ROLE
-            = "select username,user_role as authority from users "
+            = "select username,user_role as authority from programmer "
             + "where username = ?";
 
     @Autowired

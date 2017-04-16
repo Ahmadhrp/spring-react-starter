@@ -5,7 +5,7 @@
  */
 package com.harahap.ibrahim.controller;
 
-import com.harahap.ibrahim.domain.Users;
+import com.harahap.ibrahim.domain.Programmer;
 import com.harahap.ibrahim.repository.userRepository;
 import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
@@ -38,17 +38,17 @@ public class userController
     public String postUser(HttpServletRequest request)
     {
         //BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        Users user = new Users();
-        user.setNama(request.getParameter("nama"));
-        user.setCreatedAt(new Date());
-        user.setCreatedby(request.getParameter("nama"));
-        user.setUser_role("USER");
-        user.setActive(Boolean.TRUE);
-        user.setUsername(request.getParameter("username"));
-        user.setPassword(passwordEncoder.encode(request.getParameter("password")));
-        user.setPosisi(request.getParameter("posisi"));
+        Programmer programmer = new Programmer();
+        programmer.setNama(request.getParameter("nama"));
+        programmer.setCreatedAt(new Date());
+        programmer.setCreatedby(request.getParameter("nama"));
+        programmer.setUser_role("USER");
+        programmer.setActive(Boolean.TRUE);
+        programmer.setUsername(request.getParameter("username"));
+        programmer.setPassword(passwordEncoder.encode(request.getParameter("password")));
+        programmer.setPosisi(request.getParameter("posisi"));
         
-        userRepo.save(user);
+        userRepo.save(programmer);
         return "redirect:login";
     }
 }

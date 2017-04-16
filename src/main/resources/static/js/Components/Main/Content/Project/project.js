@@ -6,44 +6,40 @@ import React, {Component} from 'react';
 import toastr from 'toastr';
 import {Redirect} from 'react-router-dom';
 
-export default class Report extends Component {
+export default class Project extends Component {
     constructor(props) {
         super(props);
         this.state = {display: true, edit: false};
-        this.editReport = this.editReport.bind(this);
-        this.hapusReport = this.hapusReport.bind(this);
+        this.editProject = this.editProject.bind(this);
+        this.hapusProject = this.hapusProject.bind(this);
     }
 
-    editReport() {
-        let data = {
-            tanggal: this.props.reportdetail.tanggal,
-            project: {
-                id:this.props.reportdetail.project.id,
-                link:this.props.reportdetail.project.link
-            },
-            status: {
-                id:this.props.reportdetail.status.id,
-                link:this.props.reportdetail.status.link
-            },
-            uraian: this.props.reportdetail.uraian,
-            link: this.props.reportdetail.links
+    editProject() {
+        const data = {
+            name: this.props.projectdetail.name,
+            pic: this.props.projectdetail.pic,
+            startdate: this.props.projectdetail.startdate,
+            targetdate: this.props.projectdetail.targetdate,
+            status: this.props.projectdetail.id_status,
+            uraian: this.props.projectdetail.uraian,
+            link: this.props.projectdetail.links
         };
         this.props.trans(data);
         this.setState({edit: true});
 
     }
 
-    hapusReport() {
-        console.log(this.props.reportdetail.links);
+    hapusProject() {
+        console.log(this.props.projectdetail.links);
         $.ajax({
-            url: this.props.reportdetail.links,
+            url: this.props.projectdetail.links,
             type: 'DELETE',
             headers: {
                 'X-CSRF-TOKEN': this.props.token,
             }
         }).then(() => {
             this.setState({display: false});
-            toastr.success("Hapus Data Berhasil");
+            toastr.success("Hapus Project Berhasil");
         }).fail(error => toastr.error(error.responseJSON.message));
     }
 
@@ -53,18 +49,19 @@ export default class Report extends Component {
                 marginRight: '10px'
             }
         };
-        const report = (
+        const project = (
             <tr>
                 <td>{this.props.counter + 1}</td>
-                <td>{this.props.reportdetail.project.name}</td>
-                <td>{this.props.reportdetail.tanggal}</td>
-                <td>{this.props.reportdetail.uraian}</td>
-                <td>{this.props.reportdetail.status.name}</td>
+                <td>{this.props.projectdetail.name}</td>
+                <td>{this.props.projectdetail.pic}</td>
+                <td>{this.props.projectdetail.startdate}</td>
+                <td>{this.props.projectdetail.targetdate}</td>
+                <td>{this.props.projectdetail.status}</td>
                 <td>
-                    <a href="#" style={style.edit} onClick={this.editReport}
+                    <a href="#" style={style.edit} onClick={this.editProject}
                        className="btn btn-warning btn-xs" data-toggle="tooltip" data-placement="left"
                        title="Edit"><i className="glyphicon glyphicon-pencil"></i></a>
-                    <a href="#" style={style.hapus} onClick={this.hapusReport}
+                    <a href="#" style={style.hapus} onClick={this.hapusProject}
                        className="btn btn-danger btn-xs" data-toggle="tooltip" data-placement="right" title="Hapus">
                         <i className="glyphicon glyphicon-remove"></i></a>
                 </td>
@@ -74,10 +71,10 @@ export default class Report extends Component {
             return null;
         }
         else if (this.state.edit) {
-            return <Redirect to="/report"/>;
+            return <Redirect to="/project"/>;
         }
         else {
-            return report;
+            return project;
         }
 
 

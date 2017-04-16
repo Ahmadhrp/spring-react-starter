@@ -2,18 +2,28 @@ package com.harahap.ibrahim.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+
 import javax.persistence.*;
 
 /**
  * Created by Aim MSI on 4/13/2017.
  */
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 @Data
 @Entity
 public class Project {
-    private @Id @GeneratedValue Long id;
+    private
+    @Id
+    @GeneratedValue
+    Integer Id;
+
+    @ManyToOne
+    @JoinColumn(name = "id_status")
+    private Status status;
 
     @Column(length = 200)
     private String name;
@@ -26,9 +36,6 @@ public class Project {
 
     @Temporal(TemporalType.DATE)
     private Date target_date;
-
-    @Column(length = 20)
-    private String Status;
 
     @JsonIgnore
     @Column(length = 50)
@@ -47,4 +54,9 @@ public class Project {
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "project")
+    private List<Report> daftarReport = new ArrayList<Report>();
+
 }

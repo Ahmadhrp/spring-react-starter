@@ -7,14 +7,15 @@ import {Redirect} from 'react-router-dom';
 import toastr from 'toastr';
 import classnames from 'classnames';
 
-export default class Reportform extends Component {
+export default class Projectform extends Component {
     constructor(props) {
         super(props);
         this.state = {
             mode: this.props.mode ? this.props.mode : '',
-            date: this.props.report ? this.props.report.tanggal : new Date().toISOString(),
-            uraian: '', // this.props.report ? this.props.report.uraian :
-            project: '',
+            startdate: this.props.project ? this.props.project.startdate : new Date().toISOString(),
+            targetdate: this.props.project ? this.props.project.targetdate : new Date().toISOString(),
+            name: '',
+            pic: '',
             status: '',
             isLoading: false,
             done: false
@@ -28,10 +29,11 @@ export default class Reportform extends Component {
     componentWillReceiveProps(newProps) {
         this.setState({
             mode: newProps.mode,
-            date: newProps.report.tanggal,
-            project: newProps.report.project.id,
-            uraian: newProps.report.uraian,
-            status: newProps.report.status.id
+            startdate: newProps.project.startdate,
+            targetdate: newProps.project.targetdate,
+            name: newProps.project.name,
+            pic: newProps.project.pic,
+            status: newProps.project.status
         });
     }
 
@@ -47,60 +49,58 @@ export default class Reportform extends Component {
         this.setState({[e.target.name]: e.target.value});
     }
 
-    // handleObjChange(e){
-    //     this.setState({status: e.target.value });
-    // }
-
     handleSubmit(e) {
         e.preventDefault();
         if (this.props.mode === 'edit') {
-            const report = {
-                "tanggal": this.state.date,
-                "project": `http://localhost:8080/api/projects/${this.state.project}`,
-                "uraian": this.state.uraian,
-                "status": `http://localhost:8080/api/statuses/${this.state.status}`,
+            const project = {
+                "name": this.state.name,
+                "pic": this.state.pic,
+                "start_date": this.state.startdate,
+                "target_date": this.state.targetdate,
+                "id_status": this.state.status,
                 "updatedBy": this.props.user.username,
                 "updatedAt": new Date().toISOString()
             };
             this.setState({isLoading: true});
             $.ajax({
-                url: this.props.report.link,
+                url: this.props.project.link,
                 contentType: "application/json",
                 dataType: "json",
                 type: 'PATCH',
                 headers: {
                     "X-CSRF-TOKEN": this.props.token
                 },
-                data: JSON.stringify(report)
+                data: JSON.stringify(project)
             }).then(() => {
-                this.setState({date: '', uraian: '', project: '',status: '', isLoading: false, done: true});
-                this.props.reset();
+                this.setState(
+                    {startdate: '', targetdate: '',name: '', project: '', status: '', pic:'', isLoading: false, mode:'', done: true}
+                    );
                 toastr.success("Edit Report Berhasil");
             }).fail(error => toastr.error(error.responseJSON.message));
 
         }
         else {
-            const report = {
-                "programmer": `http://localhost:8080/api/programmers/${this.props.user.id}`,
-                "tanggal": this.state.date,
-                "project": `http://localhost:8080/api/projects/${this.state.project}`,
-                "uraian": this.state.uraian,
-                "status": `http://localhost:8080/api/statuses/${this.state.status}`,
+            const project = {
+                "name": this.state.name,
+                "pic": this.state.pic,
+                "start_date": this.state.startdate,
+                "target_date": this.state.targetdate,
+                "id_status": this.state.status,
                 "createdby": this.props.user.username,
                 "createdAt": new Date().toISOString()
             };
             this.setState({isLoading: true});
             $.ajax({
-                url: "http://localhost:8080/api/reports",
+                url: "http://localhost:8080/api/projects",
                 contentType: "application/json",
                 dataType: "json",
                 type: 'post',
                 headers: {
                     "X-CSRF-TOKEN": this.props.token
                 },
-                data: JSON.stringify(report)
+                data: JSON.stringify(project)
             }).then(() => {
-                this.setState({date: '', uraian: '', project: '',status: '', isLoading: false, done: true});
+                this.setState({startdate: '', targetdate: '',name: '', project: '', status: '', pic:'',  mode:'', isLoading: false, done: true});
                 toastr.success("Input Report Berhasil");
             }).fail(error => toastr.error(error.responseJSON.message));
 
@@ -111,31 +111,32 @@ export default class Reportform extends Component {
     render() {
         const form = (
             <div>
-                <h1 className="page-header">Input Daily Report</h1>
-                <div id="input_report">
-                    <form className={classnames('ui','form',{loading:this.state.isLoading})} onSubmit={this.handleSubmit}>
+                <h1 className="page-header">New Project</h1>
+                <div id="input_project">
+                    <form className={classnames('ui', 'form', {loading: this.state.isLoading})}
+                          onSubmit={this.handleSubmit}>
                         <div className="field">
                             <label>Project</label>
-                            <select className="ui fluid dropdown" name="project" value={this.state.project} onChange={this.handleChange}>
-                                <option defaultValue value="">- Project -</option>
-                                {
-                                    this.props.projects.map((project) =>
-                                        <option key={project.id} value={project.id}>{project.name}</option>)
-                                }
-                            </select>
+                            <input type="text" name="project" placeholder="Project Name" onChange={this.handleChange}/>
                         </div>
                         <div className="field">
-                            <label>Tanggal</label>
+                            <label>Start Date</label>
                             <DatePicker dateFormat="YYYY/MM/DD" onChange={this.handleDateChange}
-                                        value={this.state.date}/>
+                                        value={this.state.startdate}/>
                         </div>
                         <div className="field">
-                            <label>Uraian</label>
-                            <input type="text" name="uraian" value={this.state.uraian} placeholder="Uraian" onChange={this.handleChange}/>
+                            <label>Target Date</label>
+                            <DatePicker dateFormat="YYYY/MM/DD" onChange={this.handleDateChange}
+                                        value={this.state.targetdate}/>
+                        </div>
+                        <div className="field">
+                            <label>PIC</label>
+                            <input type="text" name="pic" placeholder="PIC name" onChange={this.handleChange}/>
                         </div>
                         <div className="field">
                             <label>Status</label>
-                            <select className="ui fluid dropdown" name="status" value={this.state.status} onChange={this.handleChange}>
+                            <select className="ui fluid dropdown" name="status" value={this.state.value}
+                                    onChange={this.handleChange}>
                                 <option defaultValue value="">- Pilih Status -</option>
                                 {
                                     this.props.status.map((status) =>
@@ -147,16 +148,12 @@ export default class Reportform extends Component {
                     </form>
                 </div>
             </div>
-        )
+        );
 
         return this.state.done ?
-            <Redirect to="/reports"/>
+            <Redirect to="/projects"/>
             : form
     }
 
 
 }
-
-// <option value="1">Pnl</option>
-// <option value="2">Payroll</option>
-//     <option value="3">Smkn</option>

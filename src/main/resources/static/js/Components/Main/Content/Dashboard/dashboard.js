@@ -1,8 +1,5 @@
-/**
- * Created by Bensolo on 4/9/2017.
- */
+
 import React, {Component} from 'react';
-import Programmer from './programmer';
 
 export default class Dashboard extends Component {
 

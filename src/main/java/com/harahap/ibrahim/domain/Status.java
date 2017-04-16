@@ -12,8 +12,8 @@ import javax.persistence.Id;
  */
 @Data
 @Entity
-public class Status {
-
+public class Status
+{
     private @Id @GeneratedValue Integer Id;
 
     @Column(length = 20)

@@ -14,9 +14,9 @@ export default class Team extends Component {
 
     fetchProgrammer() {
         $.ajax({
-            url: "http://localhost:8080/api/userses",
+            url: "http://localhost:8080/api/programmers",
         }).then((data, prevState) => this.setState({
-            employees: data._embedded.userses,
+            employees: data._embedded.programmers,
             counter: prevState + 1
         }));
     }
@@ -37,10 +37,6 @@ export default class Team extends Component {
                                             links={employee._links}/>)
                         }
                     </div>
-                </div>
-                <h2 className="sub-header">Section</h2>
-                <div>
-                    Development Mode
                 </div>
             </div>
         );

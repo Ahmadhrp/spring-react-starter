@@ -1,14 +1,15 @@
 package com.harahap.ibrahim.repository;
 
 import com.harahap.ibrahim.domain.Project;
+import com.harahap.ibrahim.domain.projectProjection;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-import java.util.List;
 
 /**
  * Created by Aim MSI on 4/13/2017.
  */
-public interface projectRepository  extends CrudRepository<Project, Integer> {
-    List<Project> findByName(@Param("name") String name);
+@RepositoryRestResource(excerptProjection = projectProjection.class)
+public interface projectRepository extends CrudRepository<Project, Integer> {
+    //List<Project> findByName(@Param("name") String name);
 }

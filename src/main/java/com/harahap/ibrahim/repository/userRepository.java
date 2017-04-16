@@ -5,10 +5,7 @@
  */
 package com.harahap.ibrahim.repository;
 
-import com.harahap.ibrahim.domain.Users;
-import javax.persistence.EntityManager;
-import static org.apache.tomcat.jni.User.username;
-
+import com.harahap.ibrahim.domain.Programmer;
 import org.springframework.data.repository.CrudRepository;
 
 
@@ -16,7 +13,6 @@ import org.springframework.data.repository.CrudRepository;
  *
  * @author Aim MSI
  */
-public interface userRepository extends CrudRepository<Users,Integer> {
-    
-    
+public interface userRepository extends CrudRepository<Programmer,Integer> {
+
 }

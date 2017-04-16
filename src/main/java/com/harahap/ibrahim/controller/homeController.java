@@ -5,7 +5,6 @@
  */
 package com.harahap.ibrahim.controller;
 
-import com.harahap.ibrahim.repository.userRepositoryFindByUsernameImpl;
 import com.harahap.ibrahim.repository.userRepository;
 import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
@@ -28,17 +27,13 @@ public class homeController {
 
     private String jsonUser;
 
-    @Autowired
-    private userRepositoryFindByUsernameImpl userRepoFindLoggedInUser;
-
-
     @RequestMapping("/")
     public String home(Model model, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>) auth.getAuthorities();
 
 //        UserDetails user = (UserDetails) auth.getPrincipal();
-//        Users logged_in_user = userRepoFindLoggedInUser.findByUsername(user.getUsername());
+//        Programmer logged_in_user = userRepoFindLoggedInUser.findByUsername(user.getUsername());
 //        ObjectMapper mapper = new ObjectMapper();
 //
 //        try {
