@@ -30,17 +30,21 @@ export default class Reportform extends Component {
     componentWillReceiveProps(newProps) {
         this.setState({
             date: newProps.report.tanggal,
-            project: newProps.report.project.id,
+            project: newProps.report.project,
             uraian: newProps.report.uraian,
-            status: newProps.report.status.id
+            status: newProps.report.status
         });
     }
 
-    componentWillMount() {
+    componentDidMount() {
         $.ajax({url: "http://localhost:8080/api/projects"}).then(data => {
             this.setState({listproject: data._embedded.projects});
             // console.log(this.state.listproject);
         })
+    }
+
+    componentWillUnmount(){
+        this.props.reset('report');
     }
 
     handleDateChange(value) {
@@ -73,7 +77,6 @@ export default class Reportform extends Component {
                 },
                 data: JSON.stringify(report)
             }).then(() => {
-                this.props.reset();
                 this.setState({date: '', uraian: '', project: '', status: '', isLoading: false, done: true});
                 toastr.success("Edit Report Berhasil");
             }).fail(error => toastr.error(error.responseJSON.message));
@@ -100,7 +103,7 @@ export default class Reportform extends Component {
                 },
                 data: JSON.stringify(report)
             }).then(() => {
-                this.props.reset();
+                //this.props.reset();
                 this.setState({date: '', uraian: '', project: '', status: '', isLoading: false, done: true});
                 toastr.success("Input Report Berhasil");
             }).fail(error => toastr.error(error.responseJSON.message));
@@ -135,7 +138,7 @@ export default class Reportform extends Component {
                         </div>
                         <div className="field">
                             <label>Uraian</label>
-                            <input type="text" name="uraian" value={this.state.uraian} placeholder="Uraian"
+                            <input type="text" name="uraian" value={this.state.uraian === undefined ? '' : this.state.uraian} placeholder="Uraian"
                                    onChange={this.handleChange}/>
                         </div>
                         <div className="field">

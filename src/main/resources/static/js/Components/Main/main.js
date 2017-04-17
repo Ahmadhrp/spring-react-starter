@@ -23,15 +23,19 @@ export default class Main extends Component
         this.resetMode = this.resetMode.bind(this);
     }
 
-    resetMode(){
-        this.setState({mode:''});
+    resetMode(modul){
+        modul === 'report' ? this.setState({report:{},mode:''}) : this.setState({project:{},mode:''});
     }
 
     transReportToForm(data){
+        console.log("data project = "+data.project);
+        console.log("data status = "+data.status);
         this.setState({report : data,mode : 'edit'});
+        console.log("report state = "+this.state.report);
     }
 
     transProjectToForm(data){
+
         this.setState({project : data,mode : 'edit'});
     }
 
@@ -66,7 +70,7 @@ export default class Main extends Component
                         <Route path="/project" render={(props) => <Projectform reset={this.resetMode} mode={this.state.mode} project={this.state.project} status={this.props.status} user={this.props.user} token={this.props.token} />} />
                         <Route path="/programmers" render={(props) => <Profile user={this.props.user} token={this.props.token} />} />
                         <Route path="/reports" render={(props) => <Reportlist transfer={this.transReportToForm} token={this.props.token} />} />
-                        <Route path="/report" render={(props) => <Reportform reset={this.resetMode} mode={this.state.mode} report={this.state.report} projects={this.props.projects} status={this.props.status} user={this.props.user} token={this.props.token} />} />
+                        <Route path="/report" render={(props) => <Reportform reset={this.resetMode} mode={this.state.mode} report={this.state.report} status={this.props.status} user={this.props.user} token={this.props.token} />} />
                     </div>
                 </div>
             </div>

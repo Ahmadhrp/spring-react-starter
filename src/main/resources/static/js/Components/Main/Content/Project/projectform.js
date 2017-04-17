@@ -37,7 +37,7 @@ export default class Projectform extends Component {
     }
 
     componentWillUnmount() {
-
+        this.props.reset('project');
     }
 
     handleSDateChange(value) {
@@ -123,7 +123,7 @@ export default class Projectform extends Component {
                           onSubmit={this.handleSubmit}>
                         <div className="field">
                             <label>Project</label>
-                            <input type="text" name="name" value={this.state.name} placeholder="Project Name" onChange={this.handleChange}/>
+                            <input type="text" name="name" value={this.state.name === undefined ? '' : this.state.name} placeholder="Project Name" onChange={this.handleChange}/>
                         </div>
                         <div className="field">
                             <label>Start Date</label>
@@ -137,7 +137,7 @@ export default class Projectform extends Component {
                         </div>
                         <div className="field">
                             <label>PIC</label>
-                            <input type="text" name="pic" value={this.state.pic} placeholder="PIC name" onChange={this.handleChange}/>
+                            <input type="text" name="pic" value={this.state.pic === undefined ? '' : this.state.pic} placeholder="PIC name" onChange={this.handleChange}/>
                         </div>
                         <div className="field">
                             <label>Status</label>

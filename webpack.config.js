@@ -6,7 +6,7 @@ module.exports = {
         path: __dirname + '/src/main/webapp/public',
         filename: 'bundle.js'
     },
-    watch: true,
+    // watch: true,
     // devtool: "eval",
     module: {
         loaders: [

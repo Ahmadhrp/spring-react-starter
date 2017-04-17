@@ -15,16 +15,11 @@ export default class Report extends Component {
     }
 
     editReport() {
+        console.log("id di report = "+this.props.reportdetail.project.id);
         let data = {
             tanggal: this.props.reportdetail.tanggal,
-            project: {
-                id:this.props.reportdetail.project.id,
-                link:this.props.reportdetail.project.link
-            },
-            status: {
-                id:this.props.reportdetail.status.id,
-                link:this.props.reportdetail.status.link
-            },
+            project: this.props.reportdetail.project.id,
+            status: this.props.reportdetail.status.id,
             uraian: this.props.reportdetail.uraian,
             link: this.props.reportdetail.links
         };
