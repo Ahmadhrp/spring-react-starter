@@ -4,6 +4,7 @@ import Dashboard from './Content/Dashboard/dashboard';
 import Projectlist from './Content/Project/projectlist';
 import Projectform from './Content/Project/projectform';
 import Reportlist from './Content/Report/reportlist';
+import Printpdf from './Pdf/monthly';
 import Reportform from './Content/Report/reportform';
 import {Route} from 'react-router-dom';
 import Sidebarlink from './Sidebar/sidebar';
@@ -56,6 +57,7 @@ export default class Main extends Component
                             <Sidebarlink to="/programmers" label="Programmers"/>
                             <Sidebarlink to="/reports" label="List Report"/>
                             <Sidebarlink to="/report" label="Daily Report"/>
+                            <Sidebarlink to="/pdf" label="Print Report"/>
                             <li>
                                 <a style={{"cursor": "pointer"}} onClick={this.handleLogout.bind(this)}>Logout</a>
                             </li>
@@ -71,6 +73,7 @@ export default class Main extends Component
                         <Route path="/programmers" render={(props) => <Profile user={this.props.user} token={this.props.token} />} />
                         <Route path="/reports" render={(props) => <Reportlist transfer={this.transReportToForm} token={this.props.token} />} />
                         <Route path="/report" render={(props) => <Reportform reset={this.resetMode} mode={this.state.mode} report={this.state.report} status={this.props.status} user={this.props.user} token={this.props.token} />} />
+                        <Route path="/pdf" render={(props) => <Printpdf mode={this.state.mode} report={this.state.report} status={this.props.status} user={this.props.user} token={this.props.token} />} />
                     </div>
                 </div>
             </div>
