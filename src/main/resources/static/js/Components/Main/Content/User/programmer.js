@@ -9,7 +9,7 @@ export default class Programmer extends Component {
 
                 <div className="ui raised card">
                     <div className="image">
-                        <img src="http://localhost:8080/image/steve.jpg"/>
+                        <img src="http://10.10.5.112:8080/image/steve.jpg"/>
                     </div>
                     <div className="content">
                         <a className="header">{this.props.name}</a>

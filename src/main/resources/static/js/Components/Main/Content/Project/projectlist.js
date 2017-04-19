@@ -15,7 +15,7 @@ export default class Projectlist extends Component {
     componentWillMount() {
         this.setState({condition: true});
         $.ajax({
-            url: "http://localhost:8080/api/projects",
+            url: "http://10.10.5.112:8080/api/projects",
         }).then(data => {
             this.setState({projects: data._embedded.projects, condition: false});
             console.log(this.state.projects);

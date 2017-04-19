@@ -8,73 +8,44 @@ export default class Printpdf extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {bulan: '', tahun:''};
         this.printPDF = this.printPDF.bind(this);
     }
 
     printPDF() {
 
-        pdfMake.fonts = {
-            fontawesome: {
-                normal: 'fontawesome-webfont.ttf',
-                bold: 'fontawesome-webfont.ttf',
-                 italics: 'fontawesome-webfont.ttf',
-                 bolditalics: 'fontawesome-webfont.ttf'
-            }
+        const report = {
+            "programmer" :  this.props.user.id
         };
 
-        let docDefinition = {
-            content: [
-                {
-                    text: 'Nama :  Ibrahim Ahmad Harahap',
-                    style: 'nama'
-                },
-                {
-                    text: `Posisi :  Programmer`,
-                    style: 'posisi'
-                },
-                {
-                    text: 't ',
-                    style: 'check'
-                },
-                '\n\n',
-                {
-                    text: 'Subheader 1 - using subheader style',
-                    style: 'subheader'
-                },
-                'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Confectum ponit legam, perferendis nomine miserum, animi. Moveat nesciunt triari naturam posset, eveniunt specie deorsus efficiat sermone instituendarum fuisse veniat, eademque mutat debeo. Delectet plerique protervi diogenem dixerit logikh levius probabo adipiscuntur afficitur, factis magistra inprobitatem aliquo andriam obiecta, religionis, imitarentur studiis quam, clamat intereant vulgo admonitionem operis iudex stabilitas vacillare scriptum nixam, reperiri inveniri maestitiam istius eaque dissentias idcirco gravis, refert suscipiet recte sapiens oportet ipsam terentianus, perpauca sedatio aliena video.',
-                'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Confectum ponit legam, perferendis nomine miserum, animi. Moveat nesciunt triari naturam posset, eveniunt specie deorsus efficiat sermone instituendarum fuisse veniat, eademque mutat debeo. Delectet plerique protervi diogenem dixerit logikh levius probabo adipiscuntur afficitur, factis magistra inprobitatem aliquo andriam obiecta, religionis, imitarentur studiis quam, clamat intereant vulgo admonitionem operis iudex stabilitas vacillare scriptum nixam, reperiri inveniri maestitiam istius eaque dissentias idcirco gravis, refert suscipiet recte sapiens oportet ipsam terentianus, perpauca sedatio aliena video.\n\n',
-                {
-                    text: 'It is possible to apply multiple styles, by passing an array. This paragraph uses two styles: quote and small. When multiple styles are provided, they are evaluated in the specified order which is important in case they define the same properties',
-                    style: ['quote', 'small']
-                }
-            ],
-            defaultStyle: {
-                font: 'fontawesome'
+        $.ajax({
+            url: "http://10.10.5.112:8080/pdf",
+            contentType: "application/json",
+            dataType: "json",
+            type: 'post',
+            headers: {
+                "X-CSRF-TOKEN": this.props.token
             },
-            styles: {
-                nama: {
-                    fontSize: 14,
-                    bold: true
-                },
-                posisi: {
-                    marginTop:5,
-                    fontSize: 14,
-                    bold: true
-                },
-                subheader: {
-                    fontSize: 12,
-                    bold: true
-                },
-                quote: {
-                    italics: true
-                },
-                small: {
-                    fontSize: 8
-                }
-            }
-        }
+            data: JSON.stringify(report)
+        }).then((data) => {
+            console.log(data);
+           // this.setState({date: '', uraian: '', project: '', status: '', isLoading: false, done: true});
+           // toastr.success("Input Report Berhasil");
+        }).fail(error => toastr.error(error.responseJSON.message));
 
-        pdfMake.createPdf(docDefinition).open();
+
+
+        var columns = ["Tanggal", "Uraian", "Status"];
+        var rows = [
+            ["2017-01-01", "Mendesain User Interface", "Done"],
+            ["2017-01-02", "Mendesain Database", "Done"],
+            ["2017-01-03", "Coding Front End", "On Progress"],
+            ["2017-01-04", "Coding Controller View", "Done"],
+        ];
+
+        var doc = new jsPDF();
+        doc.autoTable(columns, rows);
+        doc.output("dataurlnewwindow");
     }
 
     render() {

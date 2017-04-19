@@ -61,7 +61,7 @@ export default class Main extends Component
                             <li>
                                 <a style={{"cursor": "pointer"}} onClick={this.handleLogout.bind(this)}>Logout</a>
                             </li>
-                            <form name="formlogout" action="http://localhost:8080/logout" method="post" id="formlogout">
+                            <form name="formlogout" action="http://10.10.5.112:8080/logout" method="post" id="formlogout">
                                 <input type="hidden" name="_csrf" value={this.props.token}/>
                             </form>
                         </ul>
@@ -73,7 +73,7 @@ export default class Main extends Component
                         <Route path="/programmers" render={(props) => <Profile user={this.props.user} token={this.props.token} />} />
                         <Route path="/reports" render={(props) => <Reportlist transfer={this.transReportToForm} token={this.props.token} />} />
                         <Route path="/report" render={(props) => <Reportform reset={this.resetMode} mode={this.state.mode} report={this.state.report} status={this.props.status} user={this.props.user} token={this.props.token} />} />
-                        <Route path="/pdf" render={(props) => <Printpdf mode={this.state.mode} report={this.state.report} status={this.props.status} user={this.props.user} token={this.props.token} />} />
+                        <Route path="/pdf" render={(props) => <Printpdf user={this.props.user} token={this.props.token} />} />
                     </div>
                 </div>
             </div>

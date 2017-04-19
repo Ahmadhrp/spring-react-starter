@@ -42,6 +42,7 @@ export default class Report extends Component {
         }).fail(error => toastr.error(error.responseJSON.message));
     }
 
+
     render() {
         const style = {
             edit: {

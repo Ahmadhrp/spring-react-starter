@@ -37,7 +37,7 @@ export default class Reportform extends Component {
     }
 
     componentDidMount() {
-        $.ajax({url: "http://localhost:8080/api/projects"}).then(data => {
+        $.ajax({url: "http://10.10.5.112:8080/api/projects"}).then(data => {
             this.setState({listproject: data._embedded.projects});
             // console.log(this.state.listproject);
         })
@@ -60,9 +60,9 @@ export default class Reportform extends Component {
         if (this.props.mode === 'edit') {
             const report = {
                 "tanggal": this.state.date,
-                "project": `http://localhost:8080/api/projects/${this.state.project}`,
+                "project": `http://10.10.5.112:8080/api/projects/${this.state.project}`,
                 "uraian": this.state.uraian,
-                "status": `http://localhost:8080/api/statuses/${this.state.status}`,
+                "status": `http://10.10.5.112:8080/api/statuses/${this.state.status}`,
                 "updatedBy": this.props.user.username,
                 "updatedAt": new Date().toISOString()
             };
@@ -84,17 +84,17 @@ export default class Reportform extends Component {
         }
         else {
             const report = {
-                "programmer": `http://localhost:8080/api/programmers/${this.props.user.id}`,
+                "programmer": `http://10.10.5.112:8080/api/programmers/${this.props.user.id}`,
                 "tanggal": this.state.date,
-                "project": `http://localhost:8080/api/projects/${this.state.project}`,
+                "project": `http://10.10.5.112:8080/api/projects/${this.state.project}`,
                 "uraian": this.state.uraian,
-                "status": `http://localhost:8080/api/statuses/${this.state.status}`,
+                "status": `http://10.10.5.112:8080/api/statuses/${this.state.status}`,
                 "createdby": this.props.user.username,
                 "createdAt": new Date().toISOString()
             };
             this.setState({isLoading: true});
             $.ajax({
-                url: "http://localhost:8080/api/reports",
+                url: "http://10.10.5.112:8080/api/reports",
                 contentType: "application/json",
                 dataType: "json",
                 type: 'post',

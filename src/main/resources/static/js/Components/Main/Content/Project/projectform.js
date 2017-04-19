@@ -62,7 +62,7 @@ export default class Projectform extends Component {
                 "pic": this.state.pic,
                 "start_date": this.state.startdate,
                 "target_date": this.state.targetdate,
-                "status": `http://localhost:8080/api/statuses/${this.state.status}`
+                "status": `http://10.10.5.112:8080/api/statuses/${this.state.status}`
             };
             this.setState({isLoading: true});
             $.ajax({
@@ -91,12 +91,12 @@ export default class Projectform extends Component {
                 "pic": this.state.pic,
                 "start_date": this.state.startdate,
                 "target_date": this.state.targetdate,
-                "status": `http://localhost:8080/api/statuses/${this.state.status}`
+                "status": `http://10.10.5.112:8080/api/statuses/${this.state.status}`
             };
 
             this.setState({isLoading: true});
             $.ajax({
-                url: "http://localhost:8080/api/projects",
+                url: "http://10.10.5.112:8080/api/projects",
                 contentType: "application/json",
                 dataType: "json",
                 type: 'post',
