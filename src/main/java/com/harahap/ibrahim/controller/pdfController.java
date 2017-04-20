@@ -9,10 +9,8 @@ import com.harahap.ibrahim.repository.userRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -32,7 +30,7 @@ public class pdfController
     private userRepository userRepo;
 
     @RequestMapping(value = "/pdf", method = RequestMethod.POST)
-    public String report(HttpServletRequest request){
+    public String report(@RequestBody Programmer programmer){
 
         Authentication authentication
                 = SecurityContextHolder.getContext().getAuthentication();
@@ -41,10 +39,13 @@ public class pdfController
             return null;
         }
 
-        UserDetails user =  (UserDetails) authentication.getPrincipal();
+        //UserDetails user =  (UserDetails) authentication.getPrincipal();
+
+        System.out.println(programmer);
+
         List report = em.createQuery(
-                "from Report where id_user = :id", Report.class
-        ).setParameter("id",request.getParameter("programmer")).getResultList();
+                "from Report where id_programmer = :id order by tanggal asc", Report.class
+        ).setParameter("id",programmer.getId()).getResultList();
 
          // return "test";
         ObjectMapper mapper = new ObjectMapper();
