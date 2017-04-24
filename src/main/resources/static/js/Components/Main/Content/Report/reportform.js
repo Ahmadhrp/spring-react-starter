@@ -11,14 +11,13 @@ export default class Reportform extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            // mode: this.props.mode ? this.props.mode : '',
-            // this.props.report ? this.props.report.tanggal :
-            date: '',
+            tanggal: '',
             uraian: '',
             project: '',
             listproject: [],
             status: '',
             isLoading: false,
+            errors: {},
             done: false
         };
 
@@ -29,7 +28,7 @@ export default class Reportform extends Component {
 
     componentWillReceiveProps(newProps) {
         this.setState({
-            date: newProps.report.tanggal,
+            tanggal: newProps.report.tanggal,
             project: newProps.report.project,
             uraian: newProps.report.uraian,
             status: newProps.report.status
@@ -37,7 +36,7 @@ export default class Reportform extends Component {
     }
 
     componentDidMount() {
-        $.ajax({url: "http://10.10.5.112:8080/api/projects"}).then(data => {
+        $.ajax({url: "http://localhost:8080/api/projects"}).then(data => {
             this.setState({listproject: data._embedded.projects});
             // console.log(this.state.listproject);
         })
@@ -48,21 +47,32 @@ export default class Reportform extends Component {
     }
 
     handleDateChange(value) {
-        this.setState({date: value});
+        if (!!this.state.errors.tanggal) {
+            let errors = Object.assign({}, this.state.errors);
+            delete errors.tanggal;
+            this.setState({tanggal: value, errors});
+        } else {
+            this.setState({tanggal: value});
+        }
     }
 
     handleChange(e) {
-        this.setState({[e.target.name]: e.target.value});
+        if (!!this.state.errors[e.target.name]) {
+            let errors = Object.assign({}, this.state.errors);
+            delete errors[e.target.name];
+            this.setState({[e.target.name]: e.target.value, errors});
+        } else {
+            this.setState({[e.target.name]: e.target.value});
+        }
     }
 
-    handleSubmit(e) {
-        e.preventDefault();
+    submitForm(){
         if (this.props.mode === 'edit') {
             const report = {
-                "tanggal": this.state.date,
-                "project": `http://10.10.5.112:8080/api/projects/${this.state.project}`,
+                "tanggal": this.state.tanggal,
+                "project": this.state.project ? `http://localhost:8080/api/projects/${this.state.project}` : '',
                 "uraian": this.state.uraian,
-                "status": `http://10.10.5.112:8080/api/statuses/${this.state.status}`,
+                "status": this.state.status ? `http://localhost:8080/api/statuses/${this.state.status}` : '',
                 "updatedBy": this.props.user.username,
                 "updatedAt": new Date().toISOString()
             };
@@ -77,24 +87,31 @@ export default class Reportform extends Component {
                 },
                 data: JSON.stringify(report)
             }).then(() => {
-                this.setState({date: '', uraian: '', project: '', status: '', isLoading: false, done: true});
+                this.setState({tanggal: '', uraian: '', project: '', status: '', isLoading: false, done: true});
                 toastr.success("Edit Report Berhasil");
-            }).fail(error => toastr.error(error.responseJSON.message));
-
+            }).fail(jqXHR => {
+                let datas = jqXHR.responseJSON.errors;
+                let errors = {};
+                datas.map(data => {
+                    errors[data.property] = data.message;
+                });
+                this.setState({errors, isLoading: false});
+                //toastr.error(error.responseJSON.message)
+            });
         }
         else {
             const report = {
-                "programmer": `http://10.10.5.112:8080/api/programmers/${this.props.user.id}`,
-                "tanggal": this.state.date,
-                "project": `http://10.10.5.112:8080/api/projects/${this.state.project}`,
+                "programmer": `http://localhost:8080/api/programmers/${this.props.user.id}`,
+                "tanggal": this.state.tanggal,
+                "project": this.state.project ? `http://localhost:8080/api/projects/${this.state.project}` : '',
                 "uraian": this.state.uraian,
-                "status": `http://10.10.5.112:8080/api/statuses/${this.state.status}`,
+                "status": this.state.status ? `http://localhost:8080/api/statuses/${this.state.status}` : '',
                 "createdby": this.props.user.username,
                 "createdAt": new Date().toISOString()
             };
             this.setState({isLoading: true});
             $.ajax({
-                url: "http://10.10.5.112:8080/api/reports",
+                url: "http://localhost:8080/api/reports",
                 contentType: "application/json",
                 dataType: "json",
                 type: 'post',
@@ -103,13 +120,36 @@ export default class Reportform extends Component {
                 },
                 data: JSON.stringify(report)
             }).then(() => {
-                //this.props.reset();
-                this.setState({date: '', uraian: '', project: '', status: '', isLoading: false, done: true});
+                this.setState({tanggal: '', uraian: '', project: '', status: '', isLoading: false, done: true});
                 toastr.success("Input Report Berhasil");
-            }).fail(error => toastr.error(error.responseJSON.message));
-
+            }).fail(jqXHR => {
+                let datas = jqXHR.responseJSON.errors;
+                let errors = {};
+                datas.map(data => {
+                    errors[data.property] = data.message;
+                });
+                this.setState({errors, isLoading: false});
+                //toastr.error(error.responseJSON.message)
+            });
         }
+    }
 
+    handleSubmit(e) {
+        e.preventDefault();
+        let errors = {};
+        if (this.state.uraian === '') errors.uraian = 'Apa Isi Laporanmu Bous';
+        if (this.state.project === '') errors.project = 'Pilih Projectnya Bous';
+        if (this.state.status === '') errors.status = 'Pilih Status Project Bous';
+        if (this.state.tanggal === '' || this.state.tanggal === null) errors.tanggal = 'Pilih Tanggalnya Bous';
+        this.setState({errors});
+        const isValid = Object.keys(errors).length === 0
+
+        if (isValid) {
+            console.log("submit cos no error");
+            this.submitForm();
+        } else {
+            console.log("upsss ad error");
+        }
     }
 
     render() {
@@ -120,7 +160,7 @@ export default class Reportform extends Component {
                 <div id="input_report">
                     <form className={classnames('ui', 'form', {loading: this.state.isLoading})}
                           onSubmit={this.handleSubmit}>
-                        <div className="field">
+                        <div className={classnames('field', {error: !!this.state.errors.project})}>
                             <label>Project</label>
                             <select className="ui fluid dropdown" name="project" value={this.state.project}
                                     onChange={this.handleChange}>
@@ -130,18 +170,21 @@ export default class Reportform extends Component {
                                         <option key={project.id} value={project.id}>{project.name}</option>)
                                 }
                             </select>
+                            <span>{this.state.errors.project}</span>
                         </div>
-                        <div className="field">
+                        <div className={classnames('field', {error: !!this.state.errors.tanggal})}>
                             <label>Tanggal</label>
                             <DatePicker dateFormat="YYYY/MM/DD" onChange={this.handleDateChange}
-                                        value={this.state.date}/>
+                                        value={this.state.tanggal}/>
+                            <span>{this.state.errors.tanggal}</span>
                         </div>
-                        <div className="field">
+                        <div className={classnames('field', {error: !!this.state.errors.uraian})}>
                             <label>Uraian</label>
                             <input type="text" name="uraian" value={this.state.uraian === undefined ? '' : this.state.uraian} placeholder="Uraian"
                                    onChange={this.handleChange}/>
+                            <span>{this.state.errors.uraian}</span>
                         </div>
-                        <div className="field">
+                        <div className={classnames('field', {error: !!this.state.errors.status})}>
                             <label>Status</label>
                             <select className="ui fluid dropdown" name="status" value={this.state.status}
                                     onChange={this.handleChange}>
@@ -151,6 +194,7 @@ export default class Reportform extends Component {
                                         <option key={status.id} value={status.id}>{status.status}</option>)
                                 }
                             </select>
+                            <span>{this.state.errors.status}</span>
                         </div>
                         <button className="ui button" type="submit">Submit</button>
                     </form>

@@ -14,7 +14,7 @@ export default class Team extends Component {
 
     fetchProgrammer() {
         $.ajax({
-            url: "http://10.10.5.112:8080/api/programmers",
+            url: "http://localhost:8080/api/programmers",
         }).then((data, prevState) => this.setState({
             employees: data._embedded.programmers,
             counter: prevState + 1

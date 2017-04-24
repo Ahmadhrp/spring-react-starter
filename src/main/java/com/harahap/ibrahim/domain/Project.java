@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * Created by Aim MSI on 4/13/2017.
@@ -21,19 +23,26 @@ public class Project {
     @GeneratedValue
     Integer Id;
 
+    @NotNull(message = "Pilih Status Project Bous")
     @ManyToOne
     @JoinColumn(name = "id_status")
     private Status status;
 
+    @NotNull(message = "Nama Project Ga Boleh Kosong Bous")
+    @Size(min = 1,max = 140,message = "Masukkan Nama Projectnya Bous")
     @Column(length = 200)
     private String name;
 
+    @NotNull(message = "Nama PIC Ga Boleh Kosong Bous")
+    @Size(min = 1,max = 100, message="Masukkan Nama PICnya Bous")
     @Column(length = 100)
     private String pic;
 
+    @NotNull(message = "Pilih Tanggal Startnya Bous")
     @Temporal(TemporalType.DATE)
     private Date start_date;
 
+    @NotNull(message = "Pilih Tanggal Targetnya Bous")
     @Temporal(TemporalType.DATE)
     private Date target_date;
 

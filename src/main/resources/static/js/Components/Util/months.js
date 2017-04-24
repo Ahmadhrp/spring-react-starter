@@ -53,6 +53,7 @@ export default class Months extends Component {
 
     selectMonth(e) {
         this.setState({active: e.target.value});
+        this.props.setMonth(e.target.value);
     }
 
     render() {

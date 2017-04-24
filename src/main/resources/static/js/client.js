@@ -19,9 +19,9 @@ class App extends Component {
 
     componentWillMount() {
         this.setState({csrf: $('meta[name="_csrf"]').attr('content')});
-        $.ajax({url: "http://10.10.5.112:8080/creden"}).then(data =>
+        $.ajax({url: "http://localhost:8080/creden"}).then(data =>
             this.setState({user: data}));
-        $.ajax({url: "http://10.10.5.112:8080/api/statuses"}).then(data =>
+        $.ajax({url: "http://localhost:8080/api/statuses"}).then(data =>
             this.setState({status: data._embedded.statuses}));
         toastr.options = {
             "positionClass": "toast-bottom-right",

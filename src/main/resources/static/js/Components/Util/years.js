@@ -13,6 +13,7 @@ export default class Years extends Component {
 
     selectYear(e) {
         this.setState({active: e.target.value});
+        this.props.setYear(e.target.value);
     }
 
     componentWillMount() {
