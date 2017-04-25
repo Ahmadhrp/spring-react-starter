@@ -6,7 +6,6 @@ import DatePicker from 'react-bootstrap-date-picker';
 import {Redirect} from 'react-router-dom';
 import toastr from 'toastr';
 import classnames from 'classnames';
-import isEmpty from 'lodash/isEmpty';
 
 export default class Projectform extends Component {
     constructor(props) {
@@ -19,12 +18,16 @@ export default class Projectform extends Component {
             status: '',
             isLoading: false,
             errors: {},
+            foto: null,
+            filename:'',
             done: false
         };
 
         this.handleSDateChange = this.handleSDateChange.bind(this);
         this.handleTDateChange = this.handleTDateChange.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.chooseFile = this.chooseFile.bind(this);
+        this.handleImageChange = this.handleImageChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -40,6 +43,24 @@ export default class Projectform extends Component {
 
     componentWillUnmount() {
         this.props.reset('project');
+    }
+
+    chooseFile(){
+        $('#attachmentName').trigger('click');
+    }
+
+    handleImageChange(e) {
+        let reader = new FileReader();
+        let file = e.target.files[0];
+
+        reader.onloadend = () => {
+            this.setState({
+                foto: file,
+                imagePreviewUrl: reader.result,
+                filename:file.name
+            });
+        }
+        reader.readAsDataURL(file)
     }
 
     handleSDateChange(value) {
@@ -121,6 +142,7 @@ export default class Projectform extends Component {
             });
         }
         else {
+            let formData = new FormData();
             const project = {
                 "createdby": this.props.user.username,
                 "createdAt": new Date().toISOString(),
@@ -130,17 +152,33 @@ export default class Projectform extends Component {
                 "target_date": this.state.targetdate,
                 "status": this.state.status ? `http://localhost:8080/api/statuses/${this.state.status}` : ''
             };
-
+            formData.append("file", this.state.foto);
+            formData.append('project', new Blob([JSON.stringify({
+                "createdby": this.props.user.username,
+                "createdAt": new Date().toISOString(),
+                "name": this.state.name,
+                "pic": this.state.pic,
+                "start_date": this.state.startdate,
+                "target_date": this.state.targetdate,
+                "status": this.state.status ? `http://localhost:8080/api/statuses/${this.state.status}` : ''
+            })], {
+                type: "application/json"
+            }));
             this.setState({isLoading: true});
             $.ajax({
-                url: "http://localhost:8080/api/projects",
-                contentType: "application/json",
-                dataType: "json",
+                //url: "http://localhost:8080/api/projects",
+                url: "http://localhost:8080/file",
+                // contentType: "application/json",
+                contentType: false,
+                enctype: 'multipart/form-data',
+                processData: false,
+                // dataType: "json",
                 type: 'post',
                 headers: {
                     "X-CSRF-TOKEN": this.props.token
                 },
-                data: JSON.stringify(project)
+                // data: JSON.stringify(project)
+                data: formData
             }).then(() => {
                 this.props.reset();
                 this.setState({
@@ -150,6 +188,7 @@ export default class Projectform extends Component {
                     project: '',
                     status: '',
                     pic: '',
+                    foto:'',
                     isLoading: false,
                     done: true
                 });
@@ -194,12 +233,23 @@ export default class Projectform extends Component {
                 <h1 className="page-header">New Project</h1>
                 <div id="input_project">
                     <form className={classnames('ui', 'form', {loading: this.state.isLoading})}
+                          encType="multipart/form-data"
                           onSubmit={this.handleSubmit}>
                         <div className={classnames('field', {error: !!this.state.errors.name})}>
                             <label>Project</label>
                             <input type="text" name="name" value={this.state.name === undefined ? '' : this.state.name}
                                    placeholder="Project Name" onChange={this.handleChange}/>
                             <span>{this.state.errors.name}</span>
+                        </div>
+                        <div className={classnames('field', {error: !!this.state.errors.foto})}>
+                            <label>Project's Thumbnail</label>
+                            <div className="ui action input">
+                                <input type="text" value={this.state.filename} placeholder="Choose File..."/>
+                                <button className="ui button" type="button" onClick={this.chooseFile}>Upload</button>
+                                <input type="file" id="attachmentName" name="attachmentName"
+                                       onChange={this.handleImageChange}
+                                       style={{"display": "none"}}/>
+                            </div>
                         </div>
                         <div className={classnames('field', {error: !!this.state.errors.start_date})}>
                             <label>Start Date</label>
@@ -244,3 +294,21 @@ export default class Projectform extends Component {
 
 
 }
+// <div className={classnames('field', {error: !!this.state.errors.foto})}>
+//     <label>Project's Thumbnail</label>
+//     <input type="text" id="_attachmentName"/>
+//     <label htmlFor="attachmentName" className="ui icon button btn-file">
+//         <i className="attachment basic icon"></i>
+//         <input type="file" id="attachmentName" name="attachmentName" onChange={this.handleImageChange}
+//                style={{"display": "none"}}/>
+//     </label>
+// </div>
+
+
+// <div className={classnames('field', {error: !!this.state.errors.foto})}>
+//     <label>Project's Thumbnail</label>
+//     <input className="fileInput"
+//            type="file"
+//            onChange={this.handleImageChange}/>
+//     <span>{this.state.errors.foto}</span>
+// </div>

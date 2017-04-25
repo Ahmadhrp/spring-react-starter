@@ -20,8 +20,14 @@ export default class Printpdf extends Component {
     }
 
     printPDF(){
-        const programmer = {
-            "id": this.props.user.id
+
+        // const programmer = {
+        //     "id": this.props.user.id
+        // };
+        const pdf = {
+            "id": this.props.user.id,
+            "month": this.state.month,
+            "year": this.state.year
         };
         let rows = [];
         console.log(this.props.user.id);
@@ -34,7 +40,7 @@ export default class Printpdf extends Component {
             headers: {
                 "X-CSRF-TOKEN": this.props.token
             },
-            data: JSON.stringify(programmer),
+            data: JSON.stringify(pdf),
         }).then((data) => {
             console.log(data);
             rows = data.map((data) => {
@@ -55,10 +61,9 @@ export default class Printpdf extends Component {
             let datas = jqXHR.responseJSON.errors;
             let errors = {};
             datas.map(data => {
-                errors[data.property] = data.message;
+                errors[data.field] = data.defaultMessage;
             });
             this.setState({errors, isLoading: false});
-            //toastr.error(error.responseJSON.message)
         });
     }
 
@@ -72,10 +77,11 @@ export default class Printpdf extends Component {
 
         if (isValid) {
             console.log("print cos no error");
-            //this.printPDF();
+            this.printPDF();
         } else {
             console.log("upsss ad error");
         }
+        this.printPDF();
     }
 
     setYear(year){

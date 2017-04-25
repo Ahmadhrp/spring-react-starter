@@ -38,6 +38,9 @@ public class Project {
     @Column(length = 100)
     private String pic;
 
+    @Column(length = 140)
+    private String foto;
+
     @NotNull(message = "Pilih Tanggal Startnya Bous")
     @Temporal(TemporalType.DATE)
     private Date start_date;
