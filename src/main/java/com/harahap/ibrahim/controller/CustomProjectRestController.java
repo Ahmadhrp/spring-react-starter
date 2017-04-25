@@ -5,6 +5,7 @@ import com.harahap.ibrahim.repository.projectRepository;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
+import org.springframework.hateoas.Resource;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -30,7 +31,7 @@ public class CustomProjectRestController {
     private projectRepository projectRepo;
 
     @RequestMapping(method = POST, value = "/file",  consumes = {"multipart/form-data"})
-    public void addProject(@RequestPart("project") @Valid Project project,
+    public void addProject(@RequestPart("project") @Valid Resource<Project> project,
                            @RequestPart("file") @Valid @NotNull @NotBlank MultipartFile file) {
             System.out.println(project);
     }

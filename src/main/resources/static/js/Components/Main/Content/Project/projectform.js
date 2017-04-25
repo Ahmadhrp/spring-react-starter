@@ -18,7 +18,7 @@ export default class Projectform extends Component {
             status: '',
             isLoading: false,
             errors: {},
-            foto: null,
+            foto: {},
             filename:'',
             done: false
         };
@@ -153,15 +153,7 @@ export default class Projectform extends Component {
                 "status": this.state.status ? `http://localhost:8080/api/statuses/${this.state.status}` : ''
             };
             formData.append("file", this.state.foto);
-            formData.append('project', new Blob([JSON.stringify({
-                "createdby": this.props.user.username,
-                "createdAt": new Date().toISOString(),
-                "name": this.state.name,
-                "pic": this.state.pic,
-                "start_date": this.state.startdate,
-                "target_date": this.state.targetdate,
-                "status": this.state.status ? `http://localhost:8080/api/statuses/${this.state.status}` : ''
-            })], {
+            formData.append('project', new Blob([JSON.stringify(project)], {
                 type: "application/json"
             }));
             this.setState({isLoading: true});
@@ -175,6 +167,7 @@ export default class Projectform extends Component {
                 // dataType: "json",
                 type: 'post',
                 headers: {
+                    "Content-Type": undefined,
                     "X-CSRF-TOKEN": this.props.token
                 },
                 // data: JSON.stringify(project)
