@@ -187,7 +187,6 @@ export default class Projectform extends Component {
                 });
                 toastr.success("Input Project Berhasil");
             }).fail((jqXHR) => {
-                    console.log(jqXHR);
                     let datas = jqXHR.responseJSON;
                     let errors = {};
                     datas.map(data => {

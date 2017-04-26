@@ -3,28 +3,20 @@ package com.harahap.ibrahim.controller;
 import com.harahap.ibrahim.domain.Errors;
 import com.harahap.ibrahim.domain.Project;
 import com.harahap.ibrahim.repository.projectRepository;
-import com.sun.istack.internal.Nullable;
-import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.ConstraintViolation;
-import javax.validation.Valid;
 import javax.validation.Validator;
-import javax.validation.constraints.NotNull;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +61,7 @@ public class CustomProjectRestController {
         //System.out.println("Sempat masuk ke method");
         String Logo ,filepath ,filename;
         File newfile;
-        List<Errors> list = new ArrayList<Errors>();
+        List<Errors> list = new ArrayList<>();
         Project project = resource.getContent();
 
         //VALIDASI
@@ -109,14 +101,14 @@ public class CustomProjectRestController {
                 stream.close();
             } catch (Exception e) {
                 System.out.println("eksepsi " + e.getMessage());
-                return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
             }
-            return new ResponseEntity<String>("Sukses Simpan File dan Project", HttpStatus.OK);
+            return new ResponseEntity<>("Sukses Simpan File dan Project", HttpStatus.OK);
         }
         else{
             Logo = LOCATION+"default.jpg";
             System.out.println("Simpan Project");
-            return new ResponseEntity<String>("Sukses Simpan Project", HttpStatus.OK);
+            return new ResponseEntity<>("Sukses Simpan Project", HttpStatus.OK);
         }
 
     }
