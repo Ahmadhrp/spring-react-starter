@@ -18,8 +18,8 @@ export default class Projectform extends Component {
             status: '',
             isLoading: false,
             errors: {},
-            foto: {},
-            filename:'',
+            foto: '',
+            filename: '',
             done: false
         };
 
@@ -45,7 +45,7 @@ export default class Projectform extends Component {
         this.props.reset('project');
     }
 
-    chooseFile(){
+    chooseFile() {
         $('#attachmentName').trigger('click');
     }
 
@@ -57,7 +57,7 @@ export default class Projectform extends Component {
             this.setState({
                 foto: file,
                 imagePreviewUrl: reader.result,
-                filename:file.name
+                filename: file.name
             });
         }
         reader.readAsDataURL(file)
@@ -132,7 +132,7 @@ export default class Projectform extends Component {
                 );
                 toastr.success("Edit Project Berhasil");
             }).fail(jqXHR => {
-                let datas = jqXHR.responseJSON.errors;
+                let datas = jqXHR.responseJSON;
                 let errors = {};
                 datas.map(data => {
                     errors[data.property] = data.message;
@@ -181,16 +181,17 @@ export default class Projectform extends Component {
                     project: '',
                     status: '',
                     pic: '',
-                    foto:'',
+                    foto: '',
                     isLoading: false,
                     done: true
                 });
                 toastr.success("Input Project Berhasil");
-            }).fail(jqXHR => {
-                    let datas = jqXHR.responseJSON.errors;
+            }).fail((jqXHR) => {
+                    console.log(jqXHR);
+                    let datas = jqXHR.responseJSON;
                     let errors = {};
                     datas.map(data => {
-                        errors[data.property] = data.message;
+                        errors[data.field] = data.message;
                     });
                     this.setState({errors, isLoading: false});
                     //toastr.error(error.responseJSON.message);
@@ -202,22 +203,22 @@ export default class Projectform extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        let errors = {};
-        if (this.state.name === '') errors.name = 'Masukkan Nama Projectnya Bous';
-        if (this.state.pic === '') errors.pic = 'Masukkan Nama PICnya Bous';
-        if (this.state.status === '') errors.status = 'Pilih Status Project Bous';
-        if (this.state.startdate === '' || this.state.startdate === null) errors.start_date = 'Pilih Tanggal Startnya Bous';
-        if (this.state.targetdate === '' || this.state.targetdate === null) errors.target_date = 'Pilih Tanggal Targetnya Bous';
-        this.setState({errors});
-        const isValid = Object.keys(errors).length === 0
-
-        if (isValid) {
-            console.log("submit cos no error");
-            this.submitForm();
-        } else {
-            console.log("upsss ad error");
-        }
-
+        // let errors = {};
+        // if (this.state.name === '') errors.name = 'Masukkan Nama Projectnya Bous';
+        // if (this.state.pic === '') errors.pic = 'Masukkan Nama PICnya Bous';
+        // if (this.state.status === '') errors.status = 'Pilih Status Project Bous';
+        // if (this.state.startdate === '' || this.state.startdate === null) errors.start_date = 'Pilih Tanggal Startnya Bous';
+        // if (this.state.targetdate === '' || this.state.targetdate === null) errors.target_date = 'Pilih Tanggal Targetnya Bous';
+        // this.setState({errors});
+        // const isValid = Object.keys(errors).length === 0
+        //
+        // if (isValid) {
+        //     console.log("submit cos no error");
+        //     this.submitForm();
+        // } else {
+        //     console.log("upsss ad error");
+        // }
+        this.submitForm();
     }
 
     render() {
@@ -243,6 +244,7 @@ export default class Projectform extends Component {
                                        onChange={this.handleImageChange}
                                        style={{"display": "none"}}/>
                             </div>
+                            <span>{this.state.errors.foto}</span>
                         </div>
                         <div className={classnames('field', {error: !!this.state.errors.start_date})}>
                             <label>Start Date</label>

@@ -1,5 +1,6 @@
 target/
 src/main/webapp/public
+src/main/resources/upload
 node_modules/
 .idea/
 *.iml
