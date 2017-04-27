@@ -49,6 +49,7 @@ export default class Projectlist extends Component {
                                             {
                                                 name: project.name,
                                                 pic: project.pic,
+                                                foto: project.foto,
                                                 startdate: project.start_date,
                                                 targetdate: project.target_date,
                                                 status:{

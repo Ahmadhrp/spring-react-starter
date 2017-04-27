@@ -2,7 +2,6 @@ package com.harahap.ibrahim.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -65,6 +64,6 @@ public class Project {
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "project")
-    private List<Report> daftarReport = new ArrayList<Report>();
+    private List<Report> daftarReport = new ArrayList<>();
 
 }

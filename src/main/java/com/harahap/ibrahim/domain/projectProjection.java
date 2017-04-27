@@ -14,6 +14,8 @@ public interface projectProjection {
 
     String getName();
 
+    String getFoto();
+
     String getPic();
 
     Date getStart_date();

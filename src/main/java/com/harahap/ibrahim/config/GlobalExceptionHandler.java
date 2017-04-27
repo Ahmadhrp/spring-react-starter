@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartException;
 
 import java.util.ArrayList;
@@ -27,10 +28,15 @@ public class GlobalExceptionHandler
         List<Errors> list = new ArrayList<>();
         if(e.getRootCause() instanceof FileUploadBase.FileSizeLimitExceededException)
         {
-            list.add(new Errors("foto","File Tidak Boleh Lebih Dari 1 Mega Bous"));
+            list.add(new Errors("foto","File Tidak Boleh Lebih Dari 3 Mega Bous"));
             return new ResponseEntity<List>(list, HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<String>(e.getRootCause().toString(), HttpStatus.BAD_REQUEST);
+        else if(e.getRootCause() instanceof MaxUploadSizeExceededException)
+        {
+            list.add(new Errors("foto","File Upload Tidak Boleh Lebih Dari 3 Mega Bous"));
+            return new ResponseEntity<List>(list, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(e.getRootCause().toString(), HttpStatus.BAD_REQUEST);
     }
 
 }

@@ -20,6 +20,7 @@ export default class Projectform extends Component {
             errors: {},
             foto: '',
             filename: '',
+            filesize: 0,
             done: false
         };
 
@@ -50,15 +51,55 @@ export default class Projectform extends Component {
     }
 
     handleImageChange(e) {
+        let errors = {}
         let reader = new FileReader();
         let file = e.target.files[0];
+        if (!!this.state.errors.foto) {
+            errors = Object.assign(errors, this.state.errors);
+            reader.onloadstart = () => {
+                if (file.size >= 3145728) {
+                    errors.foto = 'File Tidak Boleh Lebih Dari 3 Mega Bous';
+                    reader.abort();
+                } else if (!file.type.match('image.*')) {
+                    errors.foto = 'File Yang Didukung Hanya Image Bous';
+                    reader.abort();
+                }
+                else {
+                    delete errors.foto;
+                }
 
-        reader.onloadend = () => {
-            this.setState({
-                foto: file,
-                imagePreviewUrl: reader.result,
-                filename: file.name
-            });
+            };
+            reader.onloadend = () => {
+                this.setState({
+                    foto: file,
+                    filesize: file.size,
+                    imagePreviewUrl: reader.result,
+                    filename: file.name,
+                    errors
+                });
+            };
+        } else {
+            errors = Object.assign(errors, this.state.errors);
+            reader.onloadstart = () => {
+                if (file.size >= 3145728) {
+                    errors.foto = 'File Tidak Boleh Lebih Dari 3 Mega Bous';
+                    reader.abort();
+                } else if (!file.type.match('image.*')) {
+                    errors.foto = 'File Yang Didukung Hanya Image Bous';
+                    reader.abort();
+                } else {
+                    delete errors.foto;
+                }
+            };
+            reader.onloadend = () => {
+                this.setState({
+                    foto: file,
+                    filesize: file.size,
+                    imagePreviewUrl: reader.result,
+                    filename: file.name,
+                    errors
+                });
+            };
         }
         reader.readAsDataURL(file)
     }
@@ -96,6 +137,8 @@ export default class Projectform extends Component {
     }
 
     submitForm() {
+        let formData = new FormData();
+        console.log("URI = " + this.props.project.link);
         if (this.props.mode === 'edit') {
             const project = {
                 "updatedBy": this.props.user.username,
@@ -106,16 +149,22 @@ export default class Projectform extends Component {
                 "target_date": this.state.targetdate,
                 "status": this.state.status ? `http://localhost:8080/api/statuses/${this.state.status}` : ''
             };
+            formData.append("file", this.state.foto);
+            formData.append('project', new Blob([JSON.stringify(project)], {
+                type: "application/json"
+            }));
             this.setState({isLoading: true});
             $.ajax({
                 url: this.props.project.link,
-                contentType: "application/json",
-                dataType: "json",
+                contentType: false,
+                enctype: 'multipart/form-data',
+                processData: false,
                 type: 'PATCH',
                 headers: {
+                    "Content-Type": undefined,
                     "X-CSRF-TOKEN": this.props.token
                 },
-                data: JSON.stringify(project)
+                data: formData
             }).then(() => {
                 this.props.reset();
                 this.setState(
@@ -142,7 +191,6 @@ export default class Projectform extends Component {
             });
         }
         else {
-            let formData = new FormData();
             const project = {
                 "createdby": this.props.user.username,
                 "createdAt": new Date().toISOString(),
@@ -158,19 +206,15 @@ export default class Projectform extends Component {
             }));
             this.setState({isLoading: true});
             $.ajax({
-                //url: "http://localhost:8080/api/projects",
-                url: "http://localhost:8080/file",
-                // contentType: "application/json",
+                url: "http://localhost:8080/api/projects",
                 contentType: false,
                 enctype: 'multipart/form-data',
                 processData: false,
-                // dataType: "json",
                 type: 'post',
                 headers: {
                     "Content-Type": undefined,
                     "X-CSRF-TOKEN": this.props.token
                 },
-                // data: JSON.stringify(project)
                 data: formData
             }).then(() => {
                 this.props.reset();
@@ -202,10 +246,16 @@ export default class Projectform extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
+        //console.log(this.state.filesize);
         // let errors = {};
         // if (this.state.name === '') errors.name = 'Masukkan Nama Projectnya Bous';
         // if (this.state.pic === '') errors.pic = 'Masukkan Nama PICnya Bous';
         // if (this.state.status === '') errors.status = 'Pilih Status Project Bous';
+        // if (this.state.foto !== ''){
+        //     console.log('ada foto');
+        //     if (!this.state.foto.type.match('image.*')) errors.foto = 'File Yang Didukung Hanya Image Bous';
+        //     else if (this.state.filesize >= 3145728) errors.foto = 'File Tidak Boleh Lebih Dari 3 Mega Bous';
+        // }
         // if (this.state.startdate === '' || this.state.startdate === null) errors.start_date = 'Pilih Tanggal Startnya Bous';
         // if (this.state.targetdate === '' || this.state.targetdate === null) errors.target_date = 'Pilih Tanggal Targetnya Bous';
         // this.setState({errors});
@@ -213,7 +263,7 @@ export default class Projectform extends Component {
         //
         // if (isValid) {
         //     console.log("submit cos no error");
-        //     this.submitForm();
+        //     //this.submitForm();
         // } else {
         //     console.log("upsss ad error");
         // }

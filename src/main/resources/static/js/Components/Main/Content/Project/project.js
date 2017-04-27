@@ -18,6 +18,7 @@ export default class Project extends Component {
         let data = {
             name: this.props.projectdetail.name,
             pic: this.props.projectdetail.pic,
+            foto: this.props.projectdetail.foto,
             startdate: this.props.projectdetail.startdate,
             targetdate: this.props.projectdetail.targetdate,
             status: this.props.projectdetail.status.id,
