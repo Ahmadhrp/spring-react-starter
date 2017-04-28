@@ -251,7 +251,6 @@ export default class Projectform extends Component {
                     }
                 }
             );
-
         }
     }
 
@@ -298,7 +297,7 @@ export default class Projectform extends Component {
                         <div className={classnames('field', {error: !!this.state.errors.foto})}>
                             <label>Project's Thumbnail</label>
                             <div className="ui action input">
-                                <input type="text" value={this.state.filename} placeholder="Choose File..."/>
+                                <input type="text" value={this.state.filename === undefined ? '' : this.state.filename} placeholder="Choose File..."/>
                                 <button className="ui button" type="button" onClick={this.chooseFile}>Upload</button>
                                 <input type="file" id="attachmentName" name="attachmentName"
                                        onChange={this.handleImageChange}
