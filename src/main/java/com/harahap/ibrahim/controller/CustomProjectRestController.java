@@ -119,10 +119,10 @@ public class CustomProjectRestController {
                 return new ResponseEntity<String>("Terjadi Kesalahan Dalam Upload File, Dicoba Lagi Bous !!!", HttpStatus.INTERNAL_SERVER_ERROR);
             }
 
-            Logo = LOCATION + filename;
+            Logo = filename;
             try {
                 newproject.setFoto(Logo);
-                //projectRepo.save(newproject);
+                projectRepo.save(newproject);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 e.printStackTrace();
@@ -132,11 +132,11 @@ public class CustomProjectRestController {
             return new ResponseEntity<>("Sukses Simpan File dan Project", HttpStatus.OK);
         } else {
 
-            Logo = LOCATION + "default.jpg";
+            Logo = "default.png";
 
             try {
                 newproject.setFoto(Logo);
-                //projectRepo.save(newproject);
+                projectRepo.save(newproject);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 e.printStackTrace();
@@ -230,7 +230,7 @@ public class CustomProjectRestController {
                 return new ResponseEntity<String>("Terjadi Kesalahan Dalam Upload File, Dicoba Lagi Bous !!!", HttpStatus.INTERNAL_SERVER_ERROR);
             }
 
-            Logo = LOCATION + filename;
+            Logo = filename;
             try {
                 newproject.setFoto(Logo);
                 projectRepo.save(newproject);

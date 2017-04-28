@@ -29,11 +29,13 @@ public class GlobalExceptionHandler
         if(e.getRootCause() instanceof FileUploadBase.FileSizeLimitExceededException)
         {
             list.add(new Errors("foto","File Tidak Boleh Lebih Dari 3 Mega Bous"));
+            System.out.println("File Size Limit Ex");
             return new ResponseEntity<List>(list, HttpStatus.BAD_REQUEST);
         }
         else if(e.getRootCause() instanceof MaxUploadSizeExceededException)
         {
             list.add(new Errors("foto","File Upload Tidak Boleh Lebih Dari 3 Mega Bous"));
+            System.out.println("Max Upload Exceed");
             return new ResponseEntity<List>(list, HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(e.getRootCause().toString(), HttpStatus.BAD_REQUEST);

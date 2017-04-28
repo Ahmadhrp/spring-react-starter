@@ -36,6 +36,7 @@ export default class Projectform extends Component {
         this.setState({
             startdate: newProps.project.startdate,
             targetdate: newProps.project.targetdate,
+            filename: newProps.project.foto,
             name: newProps.project.name,
             pic: newProps.project.pic,
             status: newProps.project.status
@@ -181,13 +182,18 @@ export default class Projectform extends Component {
                 );
                 toastr.success("Edit Project Berhasil");
             }).fail(jqXHR => {
-                let datas = jqXHR.responseJSON;
-                let errors = {};
-                datas.map(data => {
-                    errors[data.property] = data.message;
-                });
-                this.setState({errors, isLoading: false});
-                //toastr.error(error.responseJSON.message)
+                if (jqXHR.status === 0) {
+                    this.setState({isLoading: false});
+                    toastr.error("Check Ukuran Filemu Bous ");
+                }
+                else {
+                    let datas = jqXHR.responseJSON;
+                    let errors = {};
+                    datas.map(data => {
+                        errors[data.field] = data.message;
+                    });
+                    this.setState({errors, isLoading: false});
+                }
             });
         }
         else {
@@ -231,13 +237,18 @@ export default class Projectform extends Component {
                 });
                 toastr.success("Input Project Berhasil");
             }).fail((jqXHR) => {
-                    let datas = jqXHR.responseJSON;
-                    let errors = {};
-                    datas.map(data => {
-                        errors[data.field] = data.message;
-                    });
-                    this.setState({errors, isLoading: false});
-                    //toastr.error(error.responseJSON.message);
+                    if (jqXHR.status === 0) {
+                        this.setState({isLoading: false});
+                        toastr.error("Check Ukuran Filemu Bous ");
+                    }
+                    else {
+                        let datas = jqXHR.responseJSON;
+                        let errors = {};
+                        datas.map(data => {
+                            errors[data.field] = data.message;
+                        });
+                        this.setState({errors, isLoading: false});
+                    }
                 }
             );
 
@@ -247,27 +258,27 @@ export default class Projectform extends Component {
     handleSubmit(e) {
         e.preventDefault();
         //console.log(this.state.filesize);
-        // let errors = {};
-        // if (this.state.name === '') errors.name = 'Masukkan Nama Projectnya Bous';
-        // if (this.state.pic === '') errors.pic = 'Masukkan Nama PICnya Bous';
-        // if (this.state.status === '') errors.status = 'Pilih Status Project Bous';
-        // if (this.state.foto !== ''){
-        //     console.log('ada foto');
-        //     if (!this.state.foto.type.match('image.*')) errors.foto = 'File Yang Didukung Hanya Image Bous';
-        //     else if (this.state.filesize >= 3145728) errors.foto = 'File Tidak Boleh Lebih Dari 3 Mega Bous';
-        // }
-        // if (this.state.startdate === '' || this.state.startdate === null) errors.start_date = 'Pilih Tanggal Startnya Bous';
-        // if (this.state.targetdate === '' || this.state.targetdate === null) errors.target_date = 'Pilih Tanggal Targetnya Bous';
-        // this.setState({errors});
-        // const isValid = Object.keys(errors).length === 0
-        //
-        // if (isValid) {
-        //     console.log("submit cos no error");
-        //     //this.submitForm();
-        // } else {
-        //     console.log("upsss ad error");
-        // }
-        this.submitForm();
+        let errors = {};
+        if (this.state.name === '') errors.name = 'Masukkan Nama Projectnya Bous';
+        if (this.state.pic === '') errors.pic = 'Masukkan Nama PICnya Bous';
+        if (this.state.status === '') errors.status = 'Pilih Status Project Bous';
+        if (this.state.foto !== ''){
+            console.log('ada foto');
+            if (!this.state.foto.type.match('image.*')) errors.foto = 'File Yang Didukung Hanya Image Bous';
+            else if (this.state.filesize >= 3145728) errors.foto = 'File Tidak Boleh Lebih Dari 3 Mega Bous';
+        }
+        if (this.state.startdate === '' || this.state.startdate === null) errors.start_date = 'Pilih Tanggal Startnya Bous';
+        if (this.state.targetdate === '' || this.state.targetdate === null) errors.target_date = 'Pilih Tanggal Targetnya Bous';
+        this.setState({errors});
+        const isValid = Object.keys(errors).length === 0
+
+        if (isValid) {
+            console.log("submit cos no error");
+            this.submitForm();
+        } else {
+            console.log("upsss ad error");
+        }
+        //this.submitForm();
     }
 
     render() {
