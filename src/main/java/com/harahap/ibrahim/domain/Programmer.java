@@ -7,6 +7,8 @@ package com.harahap.ibrahim.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,6 +22,8 @@ import javax.persistence.*;
 
 @Data
 @Entity
+@ToString(exclude = "programmerReport")
+@EqualsAndHashCode(exclude = "programmerReport")
 public class Programmer
 {
     @Id

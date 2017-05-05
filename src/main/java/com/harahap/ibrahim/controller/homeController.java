@@ -8,10 +8,14 @@ package com.harahap.ibrahim.controller;
 import com.harahap.ibrahim.repository.userRepository;
 import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
+
+import com.harahap.ibrahim.service.ProgrammerDetailService;
+import com.harahap.ibrahim.service.ProgrammerPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,11 +29,20 @@ public class homeController {
     @Autowired
     private userRepository userRepo;
 
+    @Autowired
+    private ProgrammerDetailService programmerDetailService;
+
     private String jsonUser;
 
     @RequestMapping("/")
     public String home(Model model, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("Homecontroller");
+        UserDetails user = (UserDetails) auth.getPrincipal();
+        System.out.println("Logged In username = "+user.getUsername());
+        ProgrammerPrincipal programmerPrincipal =  programmerDetailService.loadUserByUsername(user.getUsername());
+        System.out.println("Class principal = "+ programmerPrincipal.getProgrammer());
+
         Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>) auth.getAuthorities();
 
 //        UserDetails user = (UserDetails) auth.getPrincipal();
