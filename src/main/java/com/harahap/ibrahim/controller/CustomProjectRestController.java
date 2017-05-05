@@ -49,6 +49,12 @@ public class CustomProjectRestController {
             + File.separator + "static"
             + File.separator + "upload";
 
+    private static final String PUBLIC_PATH = ROOT_PATH
+            + File.separator + "src"
+            + File.separator + "main"
+            + File.separator + "webapp"
+            + File.separator + "public";
+
     private static final String HOSTNAME = "localhost";
 
     private static final String LOCATION = "http://" + HOSTNAME + ":8080/upload/";
@@ -64,7 +70,7 @@ public class CustomProjectRestController {
         Project project = resource.getContent();
 
         if (file != null) {
-            System.out.println( file.getContentType().contains("image"));
+            System.out.println(file.getContentType().contains("image"));
         }
 
         //VALIDASI
@@ -75,14 +81,14 @@ public class CustomProjectRestController {
             }
             if (file != null) {
                 System.out.println("File Tidak Null");
-                if(!file.getContentType().contains("image")){
+                if (!file.getContentType().contains("image")) {
                     list.add(new Errors("foto", "File Yang Didukung Hanya Image Bous"));
                     return new ResponseEntity<List>(list, HttpStatus.BAD_REQUEST);
                 }
                 filename = file.getOriginalFilename();
                 System.out.println("Original Filename = " + filename);
                 System.out.println("Rootpath = " + ROOT_PATH);
-                filepath = Paths.get(UPLOAD_PATH, filename).toString();
+                filepath = Paths.get(PUBLIC_PATH, filename).toString();
                 newfile = new File(filepath);
                 if (newfile.exists()) {
                     list.add(new Errors("foto", "Jangan Upload File Yang Sama Bous"));
@@ -106,7 +112,7 @@ public class CustomProjectRestController {
             try {
                 // Save the file locally
                 filename = file.getOriginalFilename();
-                filepath = Paths.get(UPLOAD_PATH, filename).toString();
+                filepath = Paths.get(PUBLIC_PATH, filename).toString();
                 newfile = new File(filepath);
                 System.out.println("Simpan File dan Project");
                 BufferedOutputStream stream =
@@ -184,14 +190,14 @@ public class CustomProjectRestController {
             }
             if (file != null) {
                 System.out.println("File Tidak Null");
-                if(!file.getContentType().contains("image")){
+                if (!file.getContentType().contains("image")) {
                     list.add(new Errors("foto", "File Yang Didukung Hanya Image Bous"));
                     return new ResponseEntity<List>(list, HttpStatus.BAD_REQUEST);
                 }
                 filename = file.getOriginalFilename();
                 System.out.println("Original Filename = " + filename);
                 System.out.println("Rootpath = " + ROOT_PATH);
-                filepath = Paths.get(UPLOAD_PATH, filename).toString();
+                filepath = Paths.get(PUBLIC_PATH, filename).toString();
                 newfile = new File(filepath);
                 if (newfile.exists()) {
                     list.add(new Errors("foto", "Jangan Upload File Yang Sama Bous"));
@@ -217,7 +223,7 @@ public class CustomProjectRestController {
             try {
                 // Save the file locally
                 filename = file.getOriginalFilename();
-                filepath = Paths.get(UPLOAD_PATH, filename).toString();
+                filepath = Paths.get(PUBLIC_PATH, filename).toString();
                 newfile = new File(filepath);
                 System.out.println("Update File dan Project");
                 BufferedOutputStream stream =
