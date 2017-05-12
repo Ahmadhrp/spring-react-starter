@@ -75,7 +75,5 @@ export default class Report extends Component {
         else {
             return report;
         }
-
-
     }
 }

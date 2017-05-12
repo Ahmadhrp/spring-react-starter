@@ -15,10 +15,10 @@ export default class Reportlist extends Component {
     componentWillMount() {
         this.setState({condition: true});
         $.ajax({
-            url: "http://localhost:8080/api/reports",
+            url: `http://localhost:8080/api/programmers/${this.props.user.id}`,
         }).then(data => {
-            this.setState({reports: data._embedded.reports, condition: false});
-            console.log(this.state.reports);
+            this.setState({reports: data._embedded.programmerReport, condition: false});
+            // console.log(this.state.reports);
         });
     }
 

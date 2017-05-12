@@ -53,7 +53,8 @@ public class CustomProjectRestController {
             + File.separator + "src"
             + File.separator + "main"
             + File.separator + "webapp"
-            + File.separator + "public";
+            + File.separator + "public"
+            + File.separator + "upload";
 
     private static final String HOSTNAME = "localhost";
 

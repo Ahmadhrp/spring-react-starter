@@ -18,7 +18,7 @@ export default class Projectlist extends Component {
             url: "http://localhost:8080/api/projects",
         }).then(data => {
             this.setState({projects: data._embedded.projects, condition: false});
-            console.log(this.state.projects);
+            //console.log(this.state.projects);
         });
     }
 

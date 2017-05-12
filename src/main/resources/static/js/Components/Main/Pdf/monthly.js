@@ -3,7 +3,6 @@
  */
 
 import React, {Component} from 'react';
-import toastr from 'toastr';
 import Years from '../../Util/years';
 import Months from '../../Util/months';
 import classnames from 'classnames';
@@ -73,7 +72,7 @@ export default class Printpdf extends Component {
         if (this.state.month === '') errors.month = 'Pilih Bulan Bous';
         if (this.state.year === '') errors.year = 'Pilih Tahun Bous';
         this.setState({errors});
-        const isValid = Object.keys(errors).length === 0
+        const isValid = Object.keys(errors).length === 0 ;
 
         if (isValid) {
             console.log("print cos no error");
@@ -81,7 +80,6 @@ export default class Printpdf extends Component {
         } else {
             console.log("upsss ad error");
         }
-        this.printPDF();
     }
 
     setYear(year){

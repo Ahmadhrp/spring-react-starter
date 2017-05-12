@@ -71,7 +71,7 @@ export default class Main extends Component
                         <Route path="/projects" render={(props) => <Projectlist transfer={this.transProjectToForm} token={this.props.token} />} />
                         <Route path="/project" render={(props) => <Projectform reset={this.resetMode} mode={this.state.mode} project={this.state.project} status={this.props.status} user={this.props.user} token={this.props.token} />} />
                         <Route path="/programmers" render={(props) => <Profile user={this.props.user} token={this.props.token} />} />
-                        <Route path="/reports" render={(props) => <Reportlist transfer={this.transReportToForm} token={this.props.token} />} />
+                        <Route path="/reports" render={(props) => <Reportlist user={this.props.user} transfer={this.transReportToForm} token={this.props.token} />} />
                         <Route path="/report" render={(props) => <Reportform reset={this.resetMode} mode={this.state.mode} report={this.state.report} status={this.props.status} user={this.props.user} token={this.props.token} />} />
                         <Route path="/pdf" render={(props) => <Printpdf user={this.props.user} token={this.props.token} />} />
                     </div>

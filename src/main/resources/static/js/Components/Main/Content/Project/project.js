@@ -51,7 +51,7 @@ export default class Project extends Component {
             project = (
                 <div className="ui raised card">
                     <div className="image" style={{"height":"251.53px"}}>
-                        <img style={{"height":"251.53px"}} src={"http://localhost:8080/public/"+this.props.projectdetail.foto}/>
+                        <img style={{"height":"251.53px"}} src={"http://localhost:8080/public/upload/"+this.props.projectdetail.foto}/>
                     </div>
                     <div className="content">
                         <a className="header">{this.props.projectdetail.name}</a>
@@ -73,7 +73,7 @@ export default class Project extends Component {
             project = (
                 <div className="ui raised card">
                     <div className="image" style={{"height":"251.53px"}}>
-                        <img style={{"height":"251.53px"}} src={"http://localhost:8080/public/"+this.props.projectdetail.foto}/>
+                        <img style={{"height":"251.53px"}} src={"http://localhost:8080/public/upload/"+this.props.projectdetail.foto}/>
                     </div>
                     <div className="content">
                         <a className="header">{this.props.projectdetail.name}</a>
