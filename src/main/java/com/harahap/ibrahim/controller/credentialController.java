@@ -36,12 +36,14 @@ public class credentialController
         if (authentication == null) {
             return null;
         }
+        System.out.println("Auth Obj = "+authentication);
 
-        UserDetails user =  (UserDetails) authentication.getPrincipal();
+        //UserDetails user =  (UserDetails) authentication.getPrincipal();
+        //System.out.println("User detail Obj = "+user);
         //UserDetails user = (UserDetails) auth.getPrincipal();
         Programmer logged_in_programmer = em.createQuery(
                 "from Programmer where username = :username", Programmer.class
-        ).setParameter("username",user.getUsername()).getSingleResult();
+        ).setParameter("username",authentication.getPrincipal()).getSingleResult();
         // ObjectMapper mapper = new ObjectMapper();
 
         return logged_in_programmer;

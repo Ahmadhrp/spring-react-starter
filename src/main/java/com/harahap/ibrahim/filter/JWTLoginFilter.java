@@ -1,7 +1,7 @@
 package com.harahap.ibrahim.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.harahap.ibrahim.domain.AccountCredentials;
+import com.harahap.ibrahim.domain.Programmer;
 import com.harahap.ibrahim.service.TokenAuthenticationService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -32,8 +32,8 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter
     public Authentication attemptAuthentication(
             HttpServletRequest req, HttpServletResponse res)
             throws AuthenticationException, IOException, ServletException {
-        AccountCredentials creds = new ObjectMapper()
-                .readValue(req.getInputStream(), AccountCredentials.class);
+        Programmer creds = new ObjectMapper()
+                .readValue(req.getInputStream(), Programmer.class);
         return getAuthenticationManager().authenticate(
                 new UsernamePasswordAuthenticationToken(
                         creds.getUsername(),

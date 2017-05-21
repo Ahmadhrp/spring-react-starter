@@ -37,7 +37,7 @@ public class homeController {
     @RequestMapping("/")
     public String home(Model model, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("Homecontroller");
+        System.out.println("Instance Auth "+ auth.getClass());
         UserDetails user = (UserDetails) auth.getPrincipal();
         System.out.println("Logged In username = "+user.getUsername());
         ProgrammerPrincipal programmerPrincipal =  programmerDetailService.loadUserByUsername(user.getUsername());
